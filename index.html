@@ -101,8 +101,6 @@
 
   <!-- ─── DẢI LỤA + NGÀY CƯỚI + ĐẾM NGƯỢC ─── -->
   <section class="sec sec--date" id="date">
-    <div class="silk" aria-hidden="true"></div>
-
     <div class="date__inner">
       <p class="kicker"  data-rise>WE'RE GETTING MARRIED</p>
       <p class="meet"    data-rise data-d="1">MEET US ON</p>
@@ -127,30 +125,55 @@
 
   <!-- ─── BOARDING PASS ─── -->
   <section class="sec sec--pass" id="details">
-    <div class="pass" data-rise>
-      <img class="pass__img" src="assets/boarding-pass.webp"
-           alt="Boarding pass — 17:00 Check-in, 17:30 Photobooth, 18:00 Opening · Claris Palace Hall, Thủ Đức, HCMC · 07.03.2027">
+    <div class="pass">
+      <!-- dải lụa bay phía sau vé, tràn xuống tận phần bản đồ (như Design Gốc) -->
+      <div class="silk" aria-hidden="true"></div>
 
-      <!-- bản mobile: dựng lại bằng chữ thật cho dễ đọc -->
-      <div class="pass__alt">
-        <p class="pass__title">BOARDING PASS</p>
-        <p class="pass__sub">FOR WEDDING OF</p>
-        <p class="pass__names">Thành &amp; Trinh</p>
+      <div class="ticket-shell" data-rise>
+        <div class="ticket">
+          <div class="ticket__stub">
+            <ul class="ticket__time">
+              <li>
+                <div class="ticket__slot"><b>17:00</b><span>Check-in</span></div>
+                <i class="ticket__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/></svg>
+                </i>
+              </li>
+              <li>
+                <div class="ticket__slot"><b>17:30</b><span>Photobooth</span></div>
+                <i class="ticket__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M9 3 7.5 5H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.5L15 3H9Zm3 5a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+                </i>
+              </li>
+              <li>
+                <div class="ticket__slot"><b>18:00</b><span>Khai tiệc</span></div>
+                <i class="ticket__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M8.1 2v7.5c0 .8-.6 1.5-1.4 1.5H6v11H4V11h-.7C2.6 11 2 10.3 2 9.5V2h1.4v6h.9V2h1.4v6h.9V2H8.1ZM16 2c-2.2 0-4 2.7-4 6s1.8 6 3 6.6V22h2V2h-1Z"/></svg>
+                </i>
+              </li>
+            </ul>
+          </div>
 
-        <ul class="pass__time">
-          <li><b>17:00</b><span>Check-in</span></li>
-          <li><b>17:30</b><span>Photobooth</span></li>
-          <li><b>18:00</b><span>Khai tiệc</span></li>
-        </ul>
+          <div class="ticket__perf" aria-hidden="true"></div>
 
-        <dl class="pass__meta">
-          <div><dt>DESTINATION</dt><dd>Claris Palace Hall</dd></div>
-          <div><dt>DATE</dt><dd>07.03.2027</dd></div>
-          <div><dt>LOCATION</dt><dd>Thủ Đức, HCMC</dd></div>
-          <div><dt>TIME</dt><dd>17:00</dd></div>
-        </dl>
+          <div class="ticket__main">
+            <p class="ticket__title">BOARDING PASS</p>
+            <p class="ticket__sub">FOR WEDDING OF</p>
+            <p class="ticket__names">Thành &amp; Trinh</p>
 
-        <img class="pass__heart" src="assets/frame-heart.webp" alt="Ảnh cưới Thành và Trinh">
+            <dl class="ticket__meta">
+              <div><dt>DESTINATION</dt><dd>CLARIS PALACE HALL</dd></div>
+              <div><dt>DATE</dt><dd>07.03.2027</dd></div>
+              <div><dt>LOCATION</dt><dd>Thủ Đức, HCMC</dd></div>
+              <div><dt>TIME</dt><dd>17:00</dd></div>
+            </dl>
+
+            <img class="ticket__table" src="assets/pass-table.webp" alt="" aria-hidden="true">
+            <img class="ticket__glass" src="assets/pass-glasses.webp" alt="" aria-hidden="true">
+            <img class="ticket__heart" src="assets/heart-photo.webp" alt="Ảnh cưới Thành và Trinh">
+          </div>
+        </div>
+        <img class="ticket__seal" src="assets/seal-monogram.webp" alt="" aria-hidden="true">
       </div>
     </div>
   </section>
@@ -159,20 +182,24 @@
   <!-- ─── BẢN ĐỒ ─── -->
   <section class="sec sec--map" id="map">
     <div class="mapwrap" data-rise>
-      <a class="mapcard" target="_blank" rel="noopener"
-         href="https://www.google.com/maps/dir/?api=1&destination=Unique+Wedding+%26+Event+38+%C4%90%E1%BA%B7ng+V%C4%83n+Bi+Th%E1%BB%A7+%C4%90%E1%BB%A9c+H%E1%BB%93+Ch%C3%AD+Minh">
-        <img src="assets/map-doily.webp" alt="Bản đồ tới Unique Wedding &amp; Event, 38 Đặng Văn Bi, Thủ Đức, TP.HCM">
-      </a>
+      <div class="mapcard">
+        <iframe class="mapcard__frame"
+                title="Bản đồ tới Trung tâm Hội nghị - Tiệc cưới Claris Palace"
+                src="https://www.google.com/maps?q=Claris+Palace%2C+22+Hi%E1%BB%87p+B%C3%ACnh%2C+Th%E1%BB%A7+%C4%90%E1%BB%A9c%2C+H%E1%BB%93+Ch%C3%AD+Minh&z=16&hl=vi&output=embed"
+                loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        <img class="mapcard__lace" src="assets/map-frame.webp" alt="" aria-hidden="true">
+      </div>
       <img class="dove dove--a" src="assets/dove-b.webp" alt="" data-par="-.18">
       <img class="dove dove--b" src="assets/dove-a.webp" alt="" data-par="-.24">
     </div>
 
     <p class="mapcard__addr" data-rise data-d="1">
-      Unique Wedding &amp; Event · 38 Đặng Văn Bi, Thủ Đức, TP.HCM
+      Trung tâm Hội nghị - Tiệc cưới Claris Palace<br>
+      22 Hiệp Bình, Thủ Đức, TP.HCM
     </p>
 
     <a class="mapcard__btn" data-rise data-d="2" target="_blank" rel="noopener"
-       href="https://www.google.com/maps/dir/?api=1&destination=Unique+Wedding+%26+Event+38+%C4%90%E1%BA%B7ng+V%C4%83n+Bi+Th%E1%BB%A7+%C4%90%E1%BB%A9c+H%E1%BB%93+Ch%C3%AD+Minh">
+       href="https://www.google.com/maps/dir/?api=1&destination=Claris+Palace%2C+22+Hi%E1%BB%87p+B%C3%ACnh%2C+Th%E1%BB%A7+%C4%90%E1%BB%A9c%2C+H%E1%BB%93+Ch%C3%AD+Minh">
       Chỉ đường
     </a>
   </section>

@@ -365,11 +365,13 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 .hero__lilyA{ right:-9%;  bottom:1%;  width:23% }
 .hero__lilyB{ left:-9%;   bottom:-9%; width:39% }
 
-/* đĩa than */
+/* Đĩa than — theo "Material/ref envelope.png": đĩa đè lên góc trên-trái tấm thiệp
+   (không tách rời ra ngoài như trước), mép phải dừng ngay trước chữ "Chí Thành"
+   — chữ trên assets/card-savedate.webp bắt đầu ở 22.6% bề ngang tấm thiệp. */
 .vinyl{
   position:absolute; z-index:7;
-  left:-3%; top:-1%;
-  width:28%;
+  left:-6.2%; top:.6%;
+  width:25.2%;
   filter:drop-shadow(0 10px 20px rgba(10,16,8,.45));
   transition:transform .45s var(--ease);
 }
@@ -412,17 +414,8 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
   text-align:center;
 }
 
-/* dải lụa trắng vắt ngang */
-.silk{
-  position:absolute; left:50%; top:4%;
-  width:168%; max-width:none; translate:-50% 0;
-  aspect-ratio:1600/691;
-  background:url('../assets/silk.webp') center/contain no-repeat;
-  opacity:.9; pointer-events:none;
-  z-index:0;
-}
-
-.date__inner{ position:relative; z-index:1 }
+/* dải lụa nay thuộc phần Boarding Pass (nó trải dài từ đây xuống tận bản đồ) */
+.date__inner{ position:relative; z-index:2 }
 
 .kicker{
   margin:0;
@@ -487,81 +480,186 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 }
 
 
-/* ─────────── BOARDING PASS ─────────── */
-.sec--pass{ padding-block:clamp(2rem,7vh,4.5rem) }
+/* ══════════════ BOARDING PASS ══════════════
+   Vé dựng lại bằng HTML/CSS thật (không dán ảnh) để ngày giờ luôn đúng và chữ
+   luôn nét. Mọi kích thước lấy trực tiếp từ "Design Gốc/2.png": khung vé gốc là
+   3742 × 1486 px, nên ở màn ≥720px vé giữ đúng tỉ lệ đó và mọi số đo được quy ra
+   cqw (1cqw = 1% bề ngang vé  ⇒  1px thiết kế = 0.02672cqw). Nhờ vậy vé phóng to
+   thu nhỏ y hệt bản thiết kế. Dưới 720px thì chữ sẽ quá nhỏ nên vé chuyển sang
+   bố cục co giãn, dễ đọc. */
+.sec--pass{
+  padding-block:clamp(2rem,7vh,4.5rem);
+  overflow:visible;                 /* để dải lụa tràn xuống phần bản đồ */
+}
 
-.pass{ width:min(100%, 900px); margin-inline:auto }
+.pass{ position:relative; width:min(100%, 1100px); margin-inline:auto }
 
-/* Ảnh vé của thiết kế in sẵn "05.03.2027" — lệch với 07.03.2027 ở các phần khác,
-   nên trang dựng lại vé bằng chữ thật để ngày tháng thống nhất và luôn nét.
-   Muốn dùng lại đúng ảnh gốc thì đổi hai dòng display dưới đây. */
-.pass__img{ display:none }
+/* Dải lụa bay phía sau vé. Trong Design Gốc/2.png mép trên vé rơi đúng vào vạch
+   28.4% chiều cao tấm lụa, nên dịch tấm lụa lên đúng ngần ấy phần trăm CHÍNH NÓ
+   (translate tính theo kích thước bản thân) — cách này đúng ở mọi chiều cao vé. */
+.silk{
+  position:absolute; z-index:0; pointer-events:none;
+  left:50%; top:0;
+  width:150%;
+  aspect-ratio:4098/5455;
+  translate:-50% -28.4%;
+  background:url('../assets/silk.webp') top center/100% 100% no-repeat;
+}
 
-.pass__alt{
+.ticket-shell{
+  position:relative; z-index:1;
+  filter:drop-shadow(0 18px 32px rgba(14,22,10,.45));
+}
+
+.ticket{
+  /* màn hẹp cần cuống vé rộng hơn để "Photobooth"/"Khai tiệc" không bị xuống dòng;
+     từ 720px trở lên mới về đúng mốc 24.9% của bản thiết kế */
+  --perf:34%;
   position:relative;
   display:grid;
-  gap:clamp(1rem,3.5vw,1.8rem);
-  padding:clamp(1.4rem,5.5vw,2.4rem) clamp(1.2rem,5vw,2.2rem);
-  background:var(--cream-2);
-  border-radius:12px;
-  box-shadow:0 22px 44px rgba(14,22,10,.42);
-  text-align:center;
-}
-.pass__title{
-  margin:0;
-  font-family:var(--f-sans); font-weight:700;
-  font-size:clamp(1rem,4.6vw,1.4rem);
-  letter-spacing:.08em; color:#5a1620;
-}
-.pass__sub{
-  margin:.35em 0 0;
-  font-family:var(--f-sans); font-weight:400;
-  font-size:clamp(.6rem,2.5vw,.72rem);
-  letter-spacing:.2em; color:#6b5a52;
-}
-.pass__names{
-  margin:.1em 0 0;
-  font-family:var(--f-script);
-  font-size:clamp(1.9rem,9vw,2.6rem);
-  color:#2f3a26;
+  grid-template-columns:var(--perf) 1fr;
+  background:#f8f4e3;
+  border-radius:14px;
 }
 
-.pass__time{
-  margin:0; padding:1.1rem 0 0; list-style:none;
-  display:flex; justify-content:center; gap:clamp(1rem,6vw,2.6rem);
-  border-top:2px dashed #d6d0bf;
+/* ── phần cuống vé: 3 mốc giờ + icon ── */
+.ticket__stub{ padding:1.2rem .7rem 1.2rem .95rem }
+.ticket__time{
+  margin:0; padding:0; list-style:none; height:100%;
+  display:flex; flex-direction:column; justify-content:space-evenly;
+  gap:1rem;
 }
-.pass__time b{
+.ticket__time li{ display:flex; align-items:center; justify-content:space-between; gap:.45rem }
+.ticket__slot{ white-space:nowrap }
+.ticket__slot b{
   display:block;
   font-family:var(--f-sans); font-weight:400;
-  font-size:clamp(1.05rem,4.6vw,1.4rem);
-  color:#2f3a26;
+  font-size:clamp(.95rem,3.7vw,1.3rem); line-height:1.1;
+  color:#400a0a;
 }
-.pass__time span{
-  font-family:var(--f-sans); font-weight:600;
-  font-size:clamp(.7rem,3vw,.82rem);
-  color:#3b4632;
+.ticket__slot span{
+  display:block;
+  font-family:var(--f-sans); font-weight:700;
+  font-size:clamp(.62rem,2.4vw,.8rem); line-height:1.25;
+  color:#273523;
+}
+.ticket__icon{ flex:none; width:clamp(15px,3.6vw,22px); height:clamp(15px,3.6vw,22px); color:#141a10 }
+.ticket__icon svg{ width:100%; height:100%; fill:currentColor }
+
+/* ── hàng lỗ đục tròn màu ghi (màn hẹp: rút gọn thành nét đứt) ── */
+.ticket__perf{
+  position:absolute; top:6%; bottom:6%; left:var(--perf);
+  width:3px; translate:-50% 0; border-radius:2px;
+  background:repeating-linear-gradient(#adaca6 0 5px, transparent 5px 11px);
 }
 
-.pass__meta{
-  margin:0; padding-top:1.1rem;
-  display:grid; grid-template-columns:1fr 1fr; gap:.9rem 1rem;
-  border-top:2px dashed #d6d0bf;
+/* ── phần thân vé ── */
+.ticket__main{ position:relative; z-index:1; padding:1.3rem 1.1rem; text-align:center }
+.ticket__title{
+  margin:0;
+  font-family:var(--f-sans); font-weight:700;
+  font-size:clamp(1rem,4vw,1.4rem); line-height:1.15;
+  letter-spacing:.02em; color:#400a0a;
+}
+.ticket__sub{
+  margin:.35em 0 0;
+  font-family:var(--f-sans); font-weight:400;
+  font-size:clamp(.6rem,2.4vw,.78rem); line-height:1.2;
+  letter-spacing:.06em; color:#400a0a;
+}
+.ticket__names{
+  margin:.12em 0 0;
+  font-family:var(--f-script); font-weight:400;
+  font-size:clamp(1.9rem,8vw,2.7rem); line-height:1.25;
+  color:#505b49;
+}
+.ticket__meta{
+  margin:1.2rem 0 0; padding:0;
+  display:grid; grid-template-columns:1.75fr 1fr; gap:1rem .6rem;
   text-align:left;
 }
-.pass__meta div{ margin:0 }
-.pass__meta dt{
-  font-family:var(--f-sans); font-weight:600;
-  font-size:clamp(.58rem,2.4vw,.68rem);
-  letter-spacing:.12em; color:#5a1620;
+.ticket__meta div{ margin:0 }
+.ticket__meta dt{
+  font-family:var(--f-sans); font-weight:700;
+  font-size:clamp(.58rem,2.2vw,.72rem); line-height:1.2;
+  letter-spacing:.02em; color:#400a0a;
 }
-.pass__meta dd{
-  margin:.22em 0 0;
+.ticket__meta dd{
+  margin:.3em 0 0;
   font-family:var(--f-sans); font-weight:400;
-  font-size:clamp(.78rem,3.2vw,.88rem);
-  color:#39442f;
+  font-size:clamp(.76rem,2.9vw,.92rem); line-height:1.25;
+  color:#400a0a;
 }
-.pass__heart{ width:clamp(140px,42vw,210px); margin:0 auto }
+
+/* ── minh hoạ + ảnh trái tim + triện sáp ──
+   Toạ độ dưới đây tính theo bề ngang .ticket__main (= 75.1% bề ngang vé). */
+.ticket__table,.ticket__glass{ display:none }
+.ticket__heart{
+  display:block;
+  width:min(64%,210px); margin:1.1rem auto .2rem;
+}
+.ticket__seal{
+  position:absolute; z-index:3; pointer-events:none;
+  right:-1.5%; top:-3.5%; width:clamp(46px,13vw,70px);
+}
+
+
+/* ── ≥720px: vé giữ đúng khung 3742×1486 của bản thiết kế ──────────────
+   1px thiết kế = 100/3742 cqw = 0.026723cqw, nên mọi số đo dưới đây là số đo
+   thật trong Design Gốc/2.png đã quy đổi. Viền vé được cắt bằng mask SVG dựng
+   theo đúng các nét đục lỗ đã đo: 9 vết bán nguyệt r=48 cách nhau 150px mỗi
+   bên, và hai vết r=110 ở giữa mép trên/dưới, ngay trên đường đục lỗ. */
+@media (min-width:720px){
+  .ticket{
+    container-type:inline-size;
+    aspect-ratio:3742/1486;
+    border-radius:0;
+    --diecut:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%203742%201486'%3E%3Cmask%20id='m'%3E%3Crect%20width='3742'%20height='1486'%20rx='70'%20fill='white'/%3E%3Cg%20fill='black'%3E%3Ccircle%20cx='0'%20cy='215'%20r='48'/%3E%3Ccircle%20cx='3742'%20cy='215'%20r='48'/%3E%3Ccircle%20cx='0'%20cy='365'%20r='48'/%3E%3Ccircle%20cx='3742'%20cy='365'%20r='48'/%3E%3Ccircle%20cx='0'%20cy='515'%20r='48'/%3E%3Ccircle%20cx='3742'%20cy='515'%20r='48'/%3E%3Ccircle%20cx='0'%20cy='665'%20r='48'/%3E%3Ccircle%20cx='3742'%20cy='665'%20r='48'/%3E%3Ccircle%20cx='0'%20cy='815'%20r='48'/%3E%3Ccircle%20cx='3742'%20cy='815'%20r='48'/%3E%3Ccircle%20cx='0'%20cy='965'%20r='48'/%3E%3Ccircle%20cx='3742'%20cy='965'%20r='48'/%3E%3Ccircle%20cx='0'%20cy='1115'%20r='48'/%3E%3Ccircle%20cx='3742'%20cy='1115'%20r='48'/%3E%3Ccircle%20cx='0'%20cy='1265'%20r='48'/%3E%3Ccircle%20cx='3742'%20cy='1265'%20r='48'/%3E%3Ccircle%20cx='0'%20cy='1415'%20r='48'/%3E%3Ccircle%20cx='3742'%20cy='1415'%20r='48'/%3E%3Ccircle%20cx='932'%20cy='0'%20r='110'/%3E%3Ccircle%20cx='932'%20cy='1486'%20r='110'/%3E%3C/g%3E%3C/mask%3E%3Crect%20width='3742'%20height='1486'%20fill='black'%20mask='url(%23m)'/%3E%3C/svg%3E");
+    -webkit-mask:var(--diecut) center/100% 100% no-repeat;
+    mask:var(--diecut) center/100% 100% no-repeat;
+  }
+
+  .ticket{ --perf:24.9%; grid-template-rows:100% }
+  .ticket__stub,.ticket__main{ min-height:0 }
+  .ticket__time{ justify-content:space-between }
+
+  .ticket__stub{ padding:6.25cqw 2.4cqw 7.9cqw 8.3cqw; overflow:hidden }
+  .ticket__time{ gap:0 }
+  .ticket__slot b   { font-size:2.75cqw }
+  .ticket__slot span{ font-size:1.95cqw }
+  .ticket__icon{ width:2.4cqw; height:2.4cqw }
+
+  .ticket__perf{
+    top:0; bottom:0; width:2.1cqw; border-radius:0;
+    background:radial-gradient(circle, #adaca6 44%, transparent 46%) center top/100% 4.01cqw repeat-y;
+  }
+
+  /* Khối chữ nằm gọn giữa đường đục lỗ và mép trái ảnh trái tim. Hộp nội dung
+     chạy từ 33.4% → 68.6% bề ngang vé nên ba dòng tiêu đề canh giữa rơi đúng
+     mốc 51% như bản thiết kế; riêng bảng thông tin thu hẹp lại 28.6cqw để cột
+     DATE/TIME bắt đầu đúng mốc 51.6%. */
+  .ticket__main{ padding:1.33cqw 31.4cqw 0 8.5cqw }
+  .ticket__title{ font-size:2.45cqw; letter-spacing:.02em }
+  .ticket__sub  { font-size:1.54cqw; margin-top:.55cqw }
+  .ticket__names{ font-size:4.4cqw;  margin-top:.3cqw }
+  .ticket__meta {
+    width:28.6cqw;
+    margin-top:5.9cqw;
+    grid-template-columns:1.75fr 1fr;
+    gap:3.96cqw .6cqw;
+  }
+  .ticket__meta dt{ font-size:1.47cqw }
+  .ticket__meta dd{ font-size:1.66cqw; margin-top:.42cqw }
+
+  .ticket__table,.ticket__glass{ display:block; position:absolute; z-index:0 }
+  .ticket__table{ left:48.5%; top:65.4%; width:17.3% }
+  .ticket__glass{ left:88.4%; top:68.2%; width:12.1% }
+  .ticket__heart{
+    position:absolute; z-index:2; margin:0;
+    left:52.7%; top:50%; translate:0 -50%; width:45.3%;
+  }
+  .ticket__seal{ right:-1.9%; top:-9.8%; width:9.9% }
+}
 
 
 /* ─────────── BẢN ĐỒ ─────────── */
@@ -572,21 +670,38 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
 /* Bồ câu đậu ngay trên khung ren của bản đồ, giống Design Gốc/2.png:
    một con lớn sải cánh ở góc trên-phải (bay vào), một con nhỏ hơn ở
    góc dưới-trái (bay ra) — cả hai đều đè lên mép khung ren của mapcard. */
-.mapwrap{ position:relative; width:min(100%, 780px); margin-inline:auto }
+/* khung ren rộng bằng ~86.6% bề ngang vé — đúng tỉ lệ trong Design Gốc/2.png */
+.mapwrap{ position:relative; width:min(100%, 950px); margin-inline:auto }
 
 .mapcard{
   position:relative; z-index:2;
   display:block;
   width:100%;
+  aspect-ratio:1500/1109;
   filter:drop-shadow(0 20px 36px rgba(14,22,10,.4));
   transition:transform .5s var(--ease);
 }
 .mapcard:hover{ transform:translateY(-6px) }
 
+/* iframe thật, tương tác kéo/thả/zoom được — nằm khít trong khung ren doily */
+.mapcard__frame{
+  position:absolute;
+  inset:11% 11.6% 11% 11.47%;
+  width:76.9%; height:78%;
+  border:0; border-radius:6px;
+  filter:saturate(.94) contrast(1.02);
+}
+/* khung ren doily cắt từ Material, giữa khoét rỗng để lộ bản đồ thật bên dưới */
+.mapcard__lace{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  pointer-events:none;
+}
+
 .dove{ position:absolute; z-index:3; pointer-events:none }
 .dove--a{
   right:-13%; top:-23%; width:41%;
-  transform:rotate(-6deg);
+  transform:rotate(-6deg) scaleX(-1);
   animation:flyA 9s ease-in-out infinite;
 }
 .dove--b{
@@ -902,36 +1017,7 @@ button{ font:inherit; color:inherit; border:0; background:none; cursor:pointer }
   .sec--hero{ padding-top:6vh }
   .hero__stage{ width:min(70vw, 620px) }
 
-  .vinyl{ left:-13% }
   .seal-btn{ right:-12% }
-
-  /* vé: màn rộng thì xếp 3 cột — giờ giấc | thông tin | ảnh trái tim */
-  .pass__alt{
-    grid-template-columns:auto 1fr auto;
-    align-items:center;
-    gap:clamp(1.6rem,3.4vw,3.2rem);
-    padding:clamp(2rem,3.4vw,2.8rem) clamp(2rem,4vw,3.2rem);
-    text-align:left;
-  }
-  .pass__title,
-  .pass__sub,
-  .pass__names{ grid-column:2; text-align:center }
-  .pass__title{ grid-row:1 }
-  .pass__sub  { grid-row:2; margin:0 }
-  .pass__names{ grid-row:3; margin:0 }
-  .pass__meta { grid-column:2; grid-row:4 }
-
-  .pass__time{
-    grid-column:1; grid-row:1 / span 4;
-    flex-direction:column; gap:1.2rem;
-    padding:0 clamp(1.2rem,2.6vw,2.2rem) 0 0;
-    border-top:0; border-right:2px dashed #d6d0bf;
-    text-align:left;
-  }
-  .pass__heart{
-    grid-column:3; grid-row:1 / span 4;
-    width:clamp(150px,17vw,225px);
-  }
 
   .story__body{ font-size:1.02rem }
 }
