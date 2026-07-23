@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chí Thành &amp; Ngọc Trinh — Thiệp mời cưới</title>
+<meta name="description" content="Thiệp mời cưới của Chí Thành & Ngọc Trinh — Chủ nhật, 07.03.2027 tại Claris Palace Hall, Thủ Đức, TP.HCM.">
+<meta name="theme-color" content="#2f3a2b">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Chí Thành & Ngọc Trinh — Thiệp mời cưới">
+<meta property="og:description" content="Chủ nhật, 07.03.2027 · Claris Palace Hall, Thủ Đức, TP.HCM">
+<meta property="og:image" content="assets/photo-1.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="assets/seal-monogram.webp">
+</head>
+
+<body class="is-locked">
+
+<!-- ══════════════════════════════════════════════════════════
+     MÀN 1 · PHONG THƯ NIÊM PHONG  (landing)
+     ══════════════════════════════════════════════════════════ -->
+<section id="landing" class="landing">
+  <div class="landing__bg" data-kenburns></div>
+  <div class="landing__vignette"></div>
+
+  <div class="landing__stage">
+    <p class="landing__eyebrow" data-in="1">a love letter from</p>
+    <h1 class="landing__names" data-in="2">Thành <span class="amp">&amp;</span> Trinh</h1>
+
+    <button class="envelope" id="openBtn" type="button" data-in="3"
+            aria-label="Mở thiệp mời cưới của Thành và Trinh">
+      <img class="envelope__paper" src="assets/envelope-closed.webp" alt="" draggable="false">
+      <img class="envelope__seal"  src="assets/seal-monogram.webp"  alt="" draggable="false">
+      <!-- thiệp trượt ra khi mở -->
+      <img class="envelope__card"  src="assets/card-savedate.webp"  alt="" draggable="false">
+    </button>
+
+    <p class="landing__cta" data-in="4">
+      <span class="landing__ctaText">Chạm để mở thiệp</span>
+      <span class="landing__ctaLine"></span>
+    </p>
+  </div>
+</section>
+
+<!-- màn lụa trắng chuyển cảnh -->
+<div class="veil" id="veil" aria-hidden="true"><span></span></div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     MÀN 2 · THIỆP CHÍNH  (scroll)
+     ══════════════════════════════════════════════════════════ -->
+<main id="main" class="main" aria-hidden="true">
+
+  <!-- ─── HERO : phong thư mở, thiệp trượt lên ─── -->
+  <section class="sec sec--hero" id="hero">
+    <div class="hero__top">
+      <img class="hero__mono" src="assets/monogram-t.webp" alt="Chữ lồng T">
+
+      <div class="hero__stage" id="heroStage">
+        <!-- lớp sau: nắp thư + lòng thư -->
+        <img class="hero__envBack" src="assets/envelope-open.webp" alt="Phong thư mở">
+
+        <!-- thiệp Save the date + ảnh polaroid trượt lên từ trong thư -->
+        <div class="hero__insert" id="heroInsert">
+          <img class="hero__card"  src="assets/card-savedate.webp"
+               alt="Save the date — Chí Thành &amp; Ngọc Trinh — 07.03.27">
+          <img class="hero__polar" src="assets/photo-polaroid.webp" alt="Ảnh cưới Thành và Trinh">
+        </div>
+
+        <!-- lớp trước: thân thư che chân thiệp, cắt theo đúng nếp gấp chữ V -->
+        <img class="hero__envFront" src="assets/envelope-open.webp" alt="" aria-hidden="true">
+        <!-- triện sáp vẽ lại nguyên vẹn ngay đỉnh nếp gấp -->
+        <img class="hero__seal" src="assets/seal-fold.webp" alt="" aria-hidden="true">
+
+        <img class="hero__lilyA" src="assets/lily-a.webp" alt="" data-par=".08">
+        <img class="hero__lilyB" src="assets/lily-b.webp" alt="" data-par=".13">
+
+        <!-- đĩa than -->
+        <button class="vinyl" id="vinyl" type="button" aria-label="Bật nhạc nền" aria-pressed="false">
+          <img src="assets/vinyl.webp" alt="" draggable="false">
+        </button>
+
+        <!-- triện Our Story -->
+        <button class="seal-btn" id="storyBtn" type="button" aria-label="Xem chuyện tình của chúng mình">
+          <img src="assets/seal-ourstory.webp" alt="" draggable="false">
+        </button>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>cuộn xuống</span><i></i>
+    </div>
+  </section>
+
+
+  <!-- ─── DẢI LỤA + NGÀY CƯỚI + ĐẾM NGƯỢC ─── -->
+  <section class="sec sec--date" id="date">
+    <div class="silk" aria-hidden="true"></div>
+
+    <div class="date__inner">
+      <p class="kicker"  data-rise>WE'RE GETTING MARRIED</p>
+      <p class="meet"    data-rise data-d="1">MEET US ON</p>
+      <h2 class="bigdate" data-rise data-d="2">
+        <span>Sunday,</span> <span class="num">07</span> <span>March</span> <span class="num">2027</span>
+      </h2>
+
+      <p class="count__lead" data-rise data-d="3">count down &amp; join with us.</p>
+
+      <div class="count" id="count" data-rise data-d="4" role="timer" aria-label="Đếm ngược tới ngày cưới">
+        <div class="count__u"><b id="cd-d">000</b><small>DAYS</small></div>
+        <span class="count__sep">:</span>
+        <div class="count__u"><b id="cd-h">00</b><small>HOURS</small></div>
+        <span class="count__sep">:</span>
+        <div class="count__u"><b id="cd-m">00</b><small>MINUTES</small></div>
+        <span class="count__sep">:</span>
+        <div class="count__u"><b id="cd-s">00</b><small>SECONDS</small></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── BOARDING PASS ─── -->
+  <section class="sec sec--pass" id="details">
+    <div class="pass" data-rise>
+      <img class="pass__img" src="assets/boarding-pass.webp"
+           alt="Boarding pass — 17:00 Check-in, 17:30 Photobooth, 18:00 Opening · Claris Palace Hall, Thủ Đức, HCMC · 07.03.2027">
+
+      <!-- bản mobile: dựng lại bằng chữ thật cho dễ đọc -->
+      <div class="pass__alt">
+        <p class="pass__title">BOARDING PASS</p>
+        <p class="pass__sub">FOR WEDDING OF</p>
+        <p class="pass__names">Thành &amp; Trinh</p>
+
+        <ul class="pass__time">
+          <li><b>17:00</b><span>Check-in</span></li>
+          <li><b>17:30</b><span>Photobooth</span></li>
+          <li><b>18:00</b><span>Khai tiệc</span></li>
+        </ul>
+
+        <dl class="pass__meta">
+          <div><dt>DESTINATION</dt><dd>Claris Palace Hall</dd></div>
+          <div><dt>DATE</dt><dd>07.03.2027</dd></div>
+          <div><dt>LOCATION</dt><dd>Thủ Đức, HCMC</dd></div>
+          <div><dt>TIME</dt><dd>17:00</dd></div>
+        </dl>
+
+        <img class="pass__heart" src="assets/frame-heart.webp" alt="Ảnh cưới Thành và Trinh">
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── BẢN ĐỒ ─── -->
+  <section class="sec sec--map" id="map">
+    <div class="mapwrap" data-rise>
+      <a class="mapcard" target="_blank" rel="noopener"
+         href="https://www.google.com/maps/dir/?api=1&destination=Unique+Wedding+%26+Event+38+%C4%90%E1%BA%B7ng+V%C4%83n+Bi+Th%E1%BB%A7+%C4%90%E1%BB%A9c+H%E1%BB%93+Ch%C3%AD+Minh">
+        <img src="assets/map-doily.webp" alt="Bản đồ tới Unique Wedding &amp; Event, 38 Đặng Văn Bi, Thủ Đức, TP.HCM">
+      </a>
+      <img class="dove dove--a" src="assets/dove-b.webp" alt="" data-par="-.18">
+      <img class="dove dove--b" src="assets/dove-a.webp" alt="" data-par="-.24">
+    </div>
+
+    <p class="mapcard__addr" data-rise data-d="1">
+      Unique Wedding &amp; Event · 38 Đặng Văn Bi, Thủ Đức, TP.HCM
+    </p>
+
+    <a class="mapcard__btn" data-rise data-d="2" target="_blank" rel="noopener"
+       href="https://www.google.com/maps/dir/?api=1&destination=Unique+Wedding+%26+Event+38+%C4%90%E1%BA%B7ng+V%C4%83n+Bi+Th%E1%BB%A7+%C4%90%E1%BB%A9c+H%E1%BB%93+Ch%C3%AD+Minh">
+      Chỉ đường
+    </a>
+  </section>
+
+
+  <!-- ─── RSVP ─── -->
+  <section class="sec sec--rsvp" id="rsvp">
+    <div class="rsvp" data-rise>
+      <div class="rsvp__lace">
+        <form class="rsvp__form" id="rsvpForm" novalidate>
+          <h2 class="rsvp__title">Xác nhận tham dự</h2>
+
+          <label class="fld">
+            <span class="fld__lb">Họ và tên</span>
+            <input type="text" name="name" required placeholder="Nhập tên của bạn" autocomplete="name">
+          </label>
+
+          <fieldset class="fld">
+            <legend class="fld__lb">Bạn sẽ tham dự chứ?</legend>
+            <label class="radio">
+              <input type="radio" name="attend" value="yes" checked>
+              <i></i><span>Có, tôi sẽ tham dự</span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="attend" value="no">
+              <i></i><span>Tôi bận, rất tiếc không thể tham dự</span>
+            </label>
+          </fieldset>
+
+          <label class="fld" id="guestsFld">
+            <span class="fld__lb">Số lượng người tham dự</span>
+            <select name="guests">
+              <option>1 người</option><option>2 người</option><option>3 người</option>
+              <option>4 người</option><option>5 người</option><option>Trên 5 người</option>
+            </select>
+          </label>
+
+          <label class="fld">
+            <span class="fld__lb">Lời chúc gửi tới cô dâu chú rể</span>
+            <textarea name="wish" rows="3" placeholder="Viết đôi lời chúc mừng…"></textarea>
+          </label>
+
+          <button class="rsvp__submit" type="submit">Gửi xác nhận</button>
+          <p class="rsvp__msg" id="rsvpMsg" role="status"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="sec sec--foot">
+    <img class="foot__mono" src="assets/monogram-t.webp" alt="" data-rise>
+    <p class="foot__thanks" data-rise data-d="1">
+      Sự hiện diện của bạn là món quà quý giá nhất<br>trong ngày trọng đại của chúng mình.
+    </p>
+    <p class="foot__sig" data-rise data-d="2">Thành &amp; Trinh</p>
+    <button class="foot__back" id="backTop" type="button">Về đầu thiệp</button>
+  </footer>
+</main>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     MÀN 3 · OUR STORY
+     ══════════════════════════════════════════════════════════ -->
+<section id="story" class="story" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Chuyện tình của chúng mình">
+  <button class="story__close" id="storyClose" type="button" aria-label="Đóng">&#10005;</button>
+
+  <div class="story__scroll">
+    <!-- Đúng bố cục Design Gốc/3.png: MỘT khung ren oval duy nhất chứa toàn bộ
+         bài viết; cô dâu chú rể đã tách nền đứng ĐÈ LÊN phần dưới của khung,
+         bệ hoa che phần thân dưới cùng. -->
+    <div class="story__frame">
+      <div class="story__ovalBox">
+        <!-- khung ren cắt 3 phần: hai chỏm giữ nguyên tỉ lệ, thân giữa co giãn
+             theo lượng chữ nên khung luôn ôm trọn bài viết mà không méo -->
+        <div class="story__oval" aria-hidden="true">
+          <img class="story__ovalTop" src="assets/oval-top.webp" alt="">
+          <div class="story__ovalMid"></div>
+          <img class="story__ovalBot" src="assets/oval-bot.webp" alt="">
+        </div>
+
+        <article class="story__body">
+          <img class="story__rings" src="assets/rings.webp" alt="">
+
+          <p>We met back in 2024, right when both of us had just hit the “reset” button on our
+             relationship status. Like… wow, talk about perfect timing! The Universe clearly saw
+             two lonely souls and said: “Yup, it's time to matchmake.”</p>
+
+          <p>Our very first date felt like a 1001-night storytelling marathon. No pretending, no
+             playing cool—we just sat down and unloaded all our past life stories and chaos.
+             Weirdly enough, nobody ran away! Instead, we unlocked an instant, deep connection
+             and realized we understood each other inside out.</p>
+
+          <h3>When Two Opposites Attract</h3>
+          <ul>
+            <li><b>The Bride:</b> A Marketing girlie &amp; Content Creator who tells 1001 drama
+                stories for a living. Always energetic, creative, and plugged into every internet trend.</li>
+            <li><b>The Groom:</b> A DevOps guy living in his own calm universe. A bit dry, totally
+                oblivious to TikTok trends, and chilling like a monk who just came down from the mountain.</li>
+          </ul>
+
+          <h3>And Now… We're Getting Married!</h3>
+          <p>Looking back, we're so grateful we both had the courage to let go of the past so we
+             could become the best versions of ourselves for each other today. Ready for our
+             greatest adventure yet! Thank you for being part of our story and celebrating this
+             next chapter with us!</p>
+
+          <img class="story__sig" src="assets/sig-names.webp" alt="Thành &amp; Trinh">
+        </article>
+      </div>
+
+      <div class="story__stage">
+        <img class="story__couple" src="assets/couple-cutout.webp"
+             alt="Chí Thành và Ngọc Trinh">
+        <img class="story__podium" src="assets/story-podium.webp" alt="">
+      </div>
+    </div>
+
+    <div class="story__photos">
+      <img src="assets/photo-1.jpg" alt="Chú rể Chí Thành">
+      <img src="assets/photo-2.jpg" alt="Cô dâu Ngọc Trinh">
+    </div>
+  </div>
+</section>
+
+<audio id="bgm" loop preload="auto" src="assets/music.mp3"></audio>
+
+<script src="js/main.js"></script>
+</body>
+</html>
