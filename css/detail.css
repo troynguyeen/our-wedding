@@ -1,0 +1,472 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   SCREEN · WEDDING DETAIL  (mockup 8)
+   Trái tim rượu vang → lịch trình trên nền kem → bản đồ và RSVP trên nhung.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.screen--detail{
+  background:var(--cream-100);
+  color:var(--ink);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Trái tim đầu trang
+   Trái tim và dòng chữ cong nằm chung một SVG dùng textPath, nên chữ co
+   giãn khoá cứng với hình, không bao giờ lệch khỏi đường cong.
+   ═══════════════════════════════════════════════════════════════════════ */
+/* Khối cao hơn trái tim một quãng: đôi uyên ương cần chỗ đứng ở góc dưới
+   trái mà không đè lên tên. Tỉ lệ cố định nên bố cục giữ nguyên mọi bề ngang. */
+.heart{
+  container-type:inline-size;
+  aspect-ratio:3 / 3.62;
+}
+
+.heart__mono{
+  position:absolute;
+  left:50%;
+  top:calc(env(safe-area-inset-top) + .25rem);
+  z-index:3;
+  width:clamp(2.2rem,7cqw,3rem);
+  height:auto;
+  transform:translateX(-50%);
+  opacity:.55;
+}
+
+.heart__svg{
+  position:absolute;
+  left:-2%;
+  top:5%;
+  width:104%;
+  height:auto;
+}
+.heart__shape{ fill:var(--wine-800) }
+.heart__curve{
+  fill:var(--cream-100);
+  font-family:var(--f-body);
+  font-style:italic;
+  font-size:17px;
+  letter-spacing:.06em;
+}
+
+.heart__names{
+  position:absolute;
+  left:4%;
+  top:18%;
+  z-index:2;
+  width:62%;
+  margin:0;
+  font-family:var(--f-script);
+  font-size:10cqw;
+  line-height:1.04;
+  color:var(--cream-50);
+}
+.heart__names span{ display:block }
+.heart__names span:first-child{ margin-left:2% }
+.heart__names span:last-child{ margin-left:12% }
+.heart__amp{
+  font-size:.5em;
+  margin:-.18em 0 -.14em 32%;
+}
+
+.heart__date{
+  position:absolute;
+  right:13%;
+  top:19%;
+  z-index:2;
+  display:grid;
+  justify-items:center;
+  gap:.12em;
+  margin:0;
+  font-family:var(--f-display);
+  font-weight:400;
+  font-size:9.5cqw;
+  line-height:1;
+  color:var(--cream-50);
+  font-variant-numeric:tabular-nums;
+}
+.heart__date i{
+  display:block;
+  width:1.5em;
+  height:1px;
+  background:rgba(255,253,247,.6);
+}
+
+.heart__couple{
+  position:absolute;
+  left:-5%;
+  bottom:0;
+  z-index:3;
+  width:47%;
+  height:auto;
+  filter:drop-shadow(0 1cqw 2.4cqw rgba(20,4,6,.35));
+}
+
+/* Mép giấy xé giữa trái tim và phần lịch trình. Nằm trên đôi uyên ương để
+   che đường cắt thẳng ở đáy ảnh tách nền. */
+.heart::after{
+  content:"";
+  position:absolute;
+  z-index:4;
+  left:0;
+  right:0;
+  bottom:0;
+  height:clamp(1.25rem,5vw,2.5rem);
+  background:var(--cream-100);
+  clip-path:polygon(0 62%,4% 44%,9% 66%,14% 40%,20% 62%,26% 38%,32% 60%,
+                    38% 36%,44% 58%,50% 34%,56% 58%,62% 36%,68% 60%,
+                    74% 38%,80% 62%,86% 40%,92% 64%,96% 44%,100% 62%,
+                    100% 100%,0 100%);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Lịch trình
+   ═══════════════════════════════════════════════════════════════════════ */
+.sched{
+  /* bề ngang dành cho vé và dải ảnh bên phải; cột chữ lấy phần còn lại */
+  --deco-w:27%;
+  padding:clamp(1.5rem,6vw,3rem) 0 clamp(2.5rem,9vw,4rem);
+  background:var(--cream-100);
+}
+
+/* Vé máy bay và dải ảnh là lớp trang trí, được phép tràn khỏi mép phải —
+   .stage cắt phần thừa nên không sinh cuộn ngang. */
+.sched__deco{
+  position:absolute;
+  right:-6%;
+  top:0;
+  width:calc(var(--deco-w) + 6%);
+  max-width:15rem;
+  pointer-events:none;
+}
+.sched__printer{
+  position:relative;
+  z-index:2;
+  width:78%;
+  height:clamp(.85rem,3.2vw,1.3rem);
+  margin-left:6%;
+  border-radius:.35rem;
+  background:linear-gradient(180deg,#eee,#c2c2c2 52%,#8f8f8f);
+  box-shadow:0 .2rem .5rem rgba(0,0,0,.2);
+}
+
+/* Vé in ra dựng đứng như trong mockup. Ảnh gốc nằm ngang nên xoay 90°, và
+   khung bọc giữ đúng tỉ lệ đã xoay để không phá vỡ dòng chảy bố cục. */
+.sched__passBox{
+  position:relative;
+  width:90%;
+  margin:-1% 0 0 5%;
+  aspect-ratio:665 / 1600;
+  transform:translateY(-7%);
+  transition:transform 1s var(--ease);
+}
+.sched.is-in .sched__passBox{ transform:translateY(0) }
+.sched__pass{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:240.6%;              /* = 1600/665, tức đúng chiều cao khung */
+  /* phải gỡ max-width:100% mặc định của img, nếu không vé bị ép về bề rộng
+     khung và sau khi xoay chỉ còn bằng một phần ba kích thước cần có */
+  max-width:none;
+  transform:translate(-50%,-50%) rotate(90deg);
+  filter:drop-shadow(0 .3rem .6rem rgba(20,4,6,.18));
+}
+
+.sched__strip{
+  display:grid;
+  gap:.4rem;
+  width:72%;
+  margin:8% 0 0 14%;
+}
+.sched__strip img{
+  width:100%;
+  height:auto;
+  padding:.25rem .25rem .8rem;
+  background:#fff;
+  box-shadow:0 .3rem .7rem rgba(20,4,6,.16);
+}
+
+.sched__list{
+  position:relative;
+  z-index:1;
+  width:min(100% - var(--pad) * 2, var(--wrap));
+  margin-inline:auto;
+  /* chừa hẳn dải bên phải cho vé và ảnh, nên chữ không bao giờ nằm dưới chúng */
+  padding:0 var(--deco-w) 0 0;
+  list-style:none;
+}
+
+/* thanh dọc chạy giữa hai cột mốc giờ */
+.sched__list::before{
+  content:"";
+  position:absolute;
+  left:calc((100% - var(--deco-w)) / 2);
+  top:.6rem;
+  bottom:1.4rem;
+  width:1px;
+  background:rgba(92,26,26,.35);
+}
+
+.sched__item{
+  position:relative;
+  width:50%;
+  padding:0 0 clamp(1.5rem,6vw,2.25rem);
+}
+.sched__time{
+  margin:0;
+  font-family:var(--f-display);
+  font-weight:400;
+  font-size:clamp(1.5rem,7.5vw,2.4rem);
+  line-height:1.1;
+  color:var(--wine-700);
+  font-variant-numeric:tabular-nums;
+}
+.sched__name{
+  margin:.1em 0 .2em;
+  font-family:var(--f-ui);
+  font-weight:500;
+  font-size:var(--t-md);
+  color:var(--wine-800);
+}
+.sched__note{
+  margin:0;
+  font-family:var(--f-body);
+  font-size:var(--t-xs);
+  line-height:1.4;
+  color:var(--ink-soft);
+}
+
+/* xen kẽ hai bên thanh dọc như mockup */
+.sched__item:nth-child(odd){
+  text-align:right;
+  padding-right:.8rem;
+}
+.sched__item:nth-child(even){
+  margin-left:50%;
+  text-align:left;
+  padding-left:.8rem;
+}
+
+/* chấm mốc trên thanh dọc */
+.sched__item::before{
+  content:"";
+  position:absolute;
+  top:.55em;
+  width:.5rem;
+  height:.5rem;
+  border-radius:50%;
+  background:var(--wine-700);
+}
+.sched__item:nth-child(odd)::before{ right:-.25rem }
+.sched__item:nth-child(even)::before{ left:-.25rem }
+
+.sched__thanks{
+  width:min(100% - var(--pad) * 2, var(--wrap));
+  margin:clamp(1rem,4vw,2rem) auto 0;
+  padding-right:var(--deco-w);
+  font-family:var(--f-display);
+  font-style:italic;
+  font-size:var(--t-sm);
+  color:var(--wine-700);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Bản đồ trên nền nhung
+   ═══════════════════════════════════════════════════════════════════════ */
+.map{
+  padding:clamp(2.5rem,9vw,4rem) 0;
+  background:
+    radial-gradient(120% 80% at 50% 0%,rgba(160,60,60,.22),transparent 60%),
+    var(--wine-900);
+  color:var(--cream-50);
+  text-align:center;
+}
+.map__dove{
+  position:absolute;
+  width:clamp(4.5rem,22vw,9rem);
+  pointer-events:none;
+}
+.map__dove--a{ left:-7%; top:12% }
+.map__dove--b{
+  right:-8%;
+  bottom:24%;
+  transform:scaleX(-1) translate3d(0,var(--par-y,0px),0);
+}
+
+.map__frame{
+  position:relative;
+  padding:clamp(1rem,5vw,2rem);
+}
+.map__embed{
+  display:block;
+  width:100%;
+  aspect-ratio:4 / 3;
+  border:0;
+  border-radius:.25rem;
+  background:var(--cream-200);
+}
+.map__lace{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+
+.map__addr{
+  margin:clamp(1rem,4vw,1.75rem) 0 0;
+  font-family:var(--f-body);
+  font-size:var(--t-md);
+  line-height:1.45;
+}
+.map__btn{
+  display:inline-block;
+  min-height:44px;
+  margin-top:1.1rem;
+  padding:.7rem 2rem;
+  border:1px solid rgba(255,253,247,.5);
+  border-radius:999px;
+  font-family:var(--f-ui);
+  font-size:var(--t-xs);
+  font-weight:500;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  text-decoration:none;
+  color:var(--cream-50);
+  transition:background-color .3s var(--ease),color .3s var(--ease);
+}
+.map__btn:hover,.map__btn:focus-visible{
+  background:var(--cream-50);
+  color:var(--wine-800);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RSVP
+   ═══════════════════════════════════════════════════════════════════════ */
+.rsvp{
+  padding:0 0 clamp(2.5rem,9vw,4rem);
+  background:
+    radial-gradient(110% 70% at 50% 100%,rgba(160,60,60,.2),transparent 62%),
+    var(--wine-900);
+}
+
+/* viền ren bao quanh form, cắt 9 ô từ assets/lace-card.webp */
+.rsvp__lace{
+  padding:clamp(1.1rem,5vw,2rem);
+  border:clamp(18px,5.5vw,30px) solid transparent;
+  border-image:url("../assets/lace-card.webp") 62 round;
+}
+.rsvp__form{
+  display:grid;
+  gap:1.1rem;
+  padding:clamp(1.25rem,5vw,2rem);
+  border-radius:.6rem;
+  background:var(--cream-50);
+}
+.rsvp__title{
+  margin:0;
+  font-family:var(--f-ui);
+  font-weight:600;
+  font-size:var(--t-lg);
+  text-align:center;
+  color:var(--ink);
+}
+
+.fld{
+  display:grid;
+  gap:.4rem;
+  margin:0;
+  padding:0;
+  border:0;
+}
+.fld__lb{
+  font-family:var(--f-ui);
+  font-size:var(--t-xs);
+  font-weight:500;
+  color:var(--ink-soft);
+}
+.fld input[type="text"],
+.fld select,
+.fld textarea{
+  width:100%;
+  padding:.7rem .85rem;
+  border:1px solid rgba(36,26,18,.22);
+  border-radius:.4rem;
+  background:#fff;
+  font-family:var(--f-ui);
+  /* 16px là ngưỡng: nhỏ hơn thì Safari tự phóng to khi bấm vào ô nhập */
+  font-size:16px;
+  color:var(--ink);
+  transition:border-color .25s var(--ease);
+}
+.fld textarea{ resize:vertical; min-height:5rem }
+.fld input:focus,.fld select:focus,.fld textarea:focus{
+  border-color:var(--wine-600);
+}
+.fld.hide{ display:none }
+
+.radio{
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+  min-height:44px;
+  font-family:var(--f-ui);
+  font-size:var(--t-xs);
+  cursor:pointer;
+}
+.radio input{ position:absolute; opacity:0; pointer-events:none }
+.radio i{
+  flex:0 0 auto;
+  width:1.15rem;
+  height:1.15rem;
+  border:2px solid rgba(36,26,18,.3);
+  border-radius:50%;
+  transition:border-color .2s var(--ease);
+}
+.radio input:checked + i{
+  border-color:var(--wine-700);
+  border-width:.36rem;
+}
+.radio input:focus-visible + i{
+  outline:2px solid var(--gold);
+  outline-offset:2px;
+}
+
+.rsvp__submit{
+  min-height:44px;
+  margin-top:.25rem;
+  padding:.85rem 1.5rem;
+  border-radius:.4rem;
+  background:var(--wine-700);
+  font-family:var(--f-ui);
+  font-size:var(--t-sm);
+  font-weight:500;
+  color:var(--cream-50);
+  transition:background-color .25s var(--ease);
+}
+.rsvp__submit:hover:not(:disabled){ background:var(--wine-600) }
+.rsvp__submit:disabled{ opacity:.75; cursor:default }
+
+.rsvp__msg{
+  margin:0;
+  min-height:1.2em;
+  font-family:var(--f-ui);
+  font-size:var(--t-xs);
+  text-align:center;
+}
+.rsvp__msg.ok{ color:var(--wine-700) }
+.rsvp__msg.err{ color:#b3261e }
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Tablet trở lên
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (min-width:48rem){
+  .heart{ aspect-ratio:3 / 2.9 }
+  .heart__curve{ font-size:15px }
+  .sched{ --deco-w:34% }
+  .sched__deco{ right:0; width:32% }
+}

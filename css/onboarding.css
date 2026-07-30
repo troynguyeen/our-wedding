@@ -1,0 +1,433 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   ONBOARDING · mockups 1–5
+   sealed → scratch → revealed → closing → open → done
+
+   Cả cụm nằm trong .ob__stage có aspect-ratio cố định và container-type,
+   nên mọi con định vị theo % và cỡ chữ theo cqw. Toàn bộ co giãn đồng bộ,
+   không bao giờ vỡ ở bất kỳ bề ngang nào.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.ob{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:grid;
+  place-items:center;
+  padding:calc(env(safe-area-inset-top) + 1rem) var(--pad)
+          calc(env(safe-area-inset-bottom) + 1rem);
+  overflow:hidden;
+  background:var(--green-700);
+  transition:opacity .7s var(--ease);
+}
+.ob[data-state="done"]{ opacity:0; pointer-events:none }
+.ob.is-gone{ display:none }
+
+/* Mọi lớp trang trí đều không nhận chuột. opacity:0 KHÔNG làm phần tử mất
+   khả năng nhận chạm — trước đây .ob__pocket (z-index 4, opacity 0) nằm đè
+   lên phong thư và nuốt gần hết cú chạm, chỉ còn vùng chữ phía trên bấm được.
+   Vùng chạm thật chỉ gồm: .ob__env (cả bức thư), .ob__foil (lúc cào), .ob__skip. */
+.ob__bg,
+.ob__envOpen,
+.ob__polaroid,
+.ob__pocket,
+.ob__foldSeal,
+.ob__card,
+.ob__cardLace,
+.ob__cardFace,
+.ob__cta{ pointer-events:none }
+
+.ob__bg{
+  position:absolute;
+  inset:0;
+  background:url("../assets/bg-landing.jpg") center/cover no-repeat;
+  transform:scale(1.06);
+  animation:obDrift 24s ease-in-out infinite alternate;
+}
+.ob__bg::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(120% 85% at 50% 42%,
+              rgba(0,0,0,0) 38%, rgba(12,20,8,.55) 100%);
+}
+@keyframes obDrift{
+  from{ transform:scale(1.06) translate3d(0,0,0) }
+  to  { transform:scale(1.13) translate3d(-1.5%,-1%,0) }
+}
+
+/* Khung lấy gần trọn bề ngang màn hình để phong thư to như mockup 1. Chiều
+   cao khung vẫn dư phía trên vì thiệp cần chỗ trồi lên ở bước cào. */
+.ob__stage{
+  position:relative;
+  container-type:inline-size;
+  width:min(100% - 1.25rem, 28rem);
+  aspect-ratio:3 / 3.9;
+}
+
+
+/* ── phong thư đóng ──────────────────────────────────────────────────── */
+/* .ob__env là <button> — cả bức thư là vùng chạm để mở, không chỉ dòng chữ
+   chú thích bên dưới. Cần tự reset các mặc định của trình duyệt cho button
+   (padding, text-align, appearance) vì tokens.css chỉ xoá border/background. */
+.ob__env{
+  position:absolute;
+  left:0;
+  width:100%;
+  bottom:13%;
+  z-index:3;
+  display:block;
+  padding:0;
+  text-align:left;
+  appearance:none;
+  -webkit-appearance:none;
+  transform-origin:50% 100%;
+  transition:opacity .5s var(--ease), transform .7s var(--ease);
+  filter:drop-shadow(0 1.8cqw 3cqw rgba(10,18,6,.4));
+}
+.ob__envPaper{ width:100%; height:auto }
+
+.ob__from{
+  position:absolute;
+  top:14%;
+  left:50%;
+  transform:translateX(-50%);
+  width:78%;
+  margin:0;
+  text-align:center;
+  color:var(--green-800);
+  line-height:1.25;
+  transition:opacity .35s var(--ease);
+}
+.ob__fromLead{
+  display:block;
+  font-family:var(--f-body);
+  font-style:italic;
+  font-size:4.4cqw;
+  letter-spacing:.02em;
+}
+.ob__fromNames{
+  display:block;
+  font-family:var(--f-script);
+  font-size:9.6cqw;
+  line-height:1.35;
+}
+
+/* lời nhắc "scratch to see details" thay chỗ dòng chào khi đang cào */
+.ob__hint{
+  position:absolute;
+  top:20%;
+  left:50%;
+  transform:translateX(-50%);
+  width:84%;
+  margin:0;
+  text-align:center;
+  font-family:var(--f-body);
+  font-style:italic;
+  font-size:5.4cqw;
+  color:var(--green-800);
+  opacity:0;
+  transition:opacity .35s var(--ease);
+  pointer-events:none;
+}
+
+.ob__seal{
+  position:absolute;
+  left:50%;
+  top:52%;
+  width:23%;
+  transform:translate(-50%,-50%);
+  transition:transform .55s var(--ease), opacity .4s var(--ease);
+}
+
+
+/* ── thiệp Save the date ─────────────────────────────────────────────── */
+/* Thiệp cao hơn thân phong thư nên không thể giấu trọn phía sau. Đúng như
+   mockup 1 và 4, ở trạng thái niêm phong thiệp không hiện — nó mờ dần vào
+   khi bắt đầu cào và mờ đi khi thư đóng lại. */
+.ob__card{
+  position:absolute;
+  left:19.5%;
+  width:61%;
+  bottom:20%;
+  z-index:2;
+  aspect-ratio:828 / 1100;
+  transform:translateY(0);
+  transition:transform .85s var(--ease), opacity .45s var(--ease);
+  filter:drop-shadow(0 1.2cqw 2.4cqw rgba(10,18,6,.32));
+}
+
+/* Vành ren quanh thiệp.
+   assets/lace-card.webp là ảnh chụp form RSVP CÓ SẴN khung ren — phần giữa
+   đục hoàn toàn. Dùng nó làm background sẽ kéo giãn nguyên cái form thành
+   mảng trắng sau thiệp. border-image chỉ vẽ vành 9 ô, bỏ hẳn phần giữa, nên
+   nền xanh xuyên qua các lỗ ren đúng như mockup 3. */
+.ob__cardLace{
+  position:absolute;
+  inset:-3.5cqw;
+  border:8cqw solid transparent;
+  border-image:url("../assets/lace-card.webp") 62 round;
+}
+
+/* Ảnh thiết kế gốc, không phải chữ dựng bằng CSS — giữ đúng font mockup. */
+.ob__cardFace{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border-radius:3.5cqw;
+  object-fit:cover;
+}
+
+/* Lớp nhũ bạc phủ lên thiệp. Ảnh card-savedate.webp có lề trong suốt (bóng
+   đổ) quanh thân thiệp — đo được thân thiệp nằm trong 7.2%–92.5% ngang và
+   5.5%–98.6% dọc. Canvas phải khớp đúng dải đó, nếu không nhũ sẽ tràn ra
+   ngoài mép giấy. */
+/* "Save the date" — ảnh card-savedate.webp không chứa dòng này, trong khi
+   mockup 3 và 5 đều có. Đặt vào khoảng trống phía trên tên (mực của asset đo
+   được là #45443f). Nằm dưới lớp nhũ nên lúc cào vẫn bị che như phần còn lại. */
+.ob__cardKicker{
+  position:absolute;
+  top:9.5%;
+  left:0;
+  right:0;
+  margin:0;
+  text-align:center;
+  font-family:var(--f-body);
+  font-size:4.6cqw;
+  letter-spacing:.01em;
+  color:#45443f;
+}
+
+/* Bắt buộc ghi rõ width/height. canvas là replaced element: nếu để auto thì
+   nó tự lấy kích thước theo thuộc tính canvas.width, mà resize() lại đặt
+   thuộc tính đó bằng rect.width × dpr — thành vòng lặp tự nhân đôi qua
+   ResizeObserver cho tới khi canvas phình ra hàng chục nghìn pixel. */
+.ob__foil{
+  position:absolute;
+  left:7.2%;
+  top:5.5%;
+  width:85.3%;
+  height:93.1%;
+  border-radius:3.5cqw;
+  opacity:0;
+  pointer-events:none;
+  touch-action:none;
+  transition:opacity .4s var(--ease);
+}
+
+
+/* ── phong thư mở + ảnh polaroid, chỉ dùng ở trạng thái open ─────────── */
+.ob__envOpen{
+  position:absolute;
+  left:0;
+  width:100%;
+  bottom:6%;
+  z-index:1;
+  opacity:0;
+  transition:opacity .5s var(--ease);
+}
+/* Ảnh polaroid, đo theo mockup 5. Lưu ý mọi tỉ lệ phải quy về THÂN thư nhìn
+   thấy được, không phải bề ngang khung: ảnh envelope-open.webp có lề trong
+   suốt chừng 8% mỗi bên, nên lấy nhầm mốc là thiệp và ảnh sẽ thò ra ngoài mép
+   thư. Thân thư ≈ 84% bề ngang khung. */
+.ob__polaroid{
+  position:absolute;
+  right:9.5%;
+  bottom:46.7%;
+  z-index:2;
+  width:36%;
+  height:auto;
+  /* Viền trắng đo trên mockup 5: hai bên và trên ~8% bề ngang ảnh, dưới dày
+     hơn ~14%. Phải dùng cqw chứ không dùng %: padding tính theo phần trăm của
+     <img> lấy mốc là bề ngang KHUNG CHỨA, không phải bề ngang chính nó — để %
+     thì viền phồng lên hơn gấp đôi và ảnh bên trong bị bóp nhỏ lại.
+     Ảnh rộng 36cqw, nên 8% của nó = 2.9cqw, 14% = 5cqw. */
+  padding:2.9cqw 2.9cqw 5cqw;
+  background:#fff;
+  border-radius:1cqw;
+  opacity:0;
+  transform:translateY(14%) rotate(0deg);
+  transition:opacity .5s var(--ease) .12s, transform .8s var(--ease) .12s;
+  box-shadow:0 1.4cqw 3cqw rgba(10,18,6,.34);
+}
+
+/* Mặt trước túi thư mở, cắt theo nếp chữ V để che chân thiệp và chân ảnh.
+   Các mốc 40% / 57% đo trực tiếp trên assets/envelope-open.webp: mép túi hai
+   bên nằm ở 40% chiều cao, đáy chữ V ở 57%, ngay dưới triện sáp. */
+.ob__pocket{
+  position:absolute;
+  left:0;
+  width:100%;
+  bottom:6%;
+  z-index:4;
+  opacity:0;
+  clip-path:polygon(0 40%, 50% 57%, 100% 40%, 100% 100%, 0 100%);
+  transition:opacity .5s var(--ease);
+}
+
+
+/* Triện sáp đặt đúng đỉnh nếp gấp chữ V. Ảnh phong thư mở cao 1500/1287 lần
+   bề ngang khung; với khung tỉ lệ 3/3.9 và đáy thư ở 6%, tâm triện (55% chiều
+   cao ảnh) rơi vào 53.5% chiều cao khung tính từ trên xuống. */
+.ob__foldSeal{
+  position:absolute;
+  left:50%;
+  top:53.5%;
+  z-index:5;
+  width:19%;
+  transform:translate(-50%,-50%);
+  opacity:0;
+  transition:opacity .5s var(--ease);
+}
+
+
+/* ── chú thích "Chạm để mở thiệp" và nút Bỏ qua ────────────────────────
+   .ob__cta là <p> thuần, không phải nút bấm — vùng chạm thật là .ob__env
+   (cả bức thư) bao trùm phía trên nó. Giữ lại chỉ để làm gợi ý thị giác. */
+.ob__cta{
+  position:absolute;
+  left:50%;
+  bottom:2%;
+  z-index:5;
+  margin:0;
+  transform:translateX(-50%);
+  display:grid;
+  justify-items:center;
+  gap:.6rem;
+  color:var(--cream-50);
+  transition:opacity .4s var(--ease);
+}
+.ob__ctaText{
+  font-family:var(--f-ui);
+  font-size:var(--t-2xs);
+  font-weight:300;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  white-space:nowrap;
+  /* nền là ảnh rừng sáng tối thất thường, cần bóng đổ mới đọc chắc chữ */
+  text-shadow:0 1px 6px rgba(10,18,6,.75);
+}
+.ob__ctaLine{
+  width:1px;
+  height:1.6rem;
+  background:linear-gradient(var(--cream-50),transparent);
+  animation:obPulse 2.4s var(--ease) infinite;
+}
+@keyframes obPulse{
+  0%,100%{ opacity:.25; transform:scaleY(.7) }
+  50%    { opacity:.9;  transform:scaleY(1) }
+}
+
+/* Neo theo góc màn hình (.ob, fixed toàn màn) chứ không theo .ob__stage —
+   nếu neo theo stage, khi thiệp trồi lên khỏi mép trên stage lúc cào, nút
+   này sẽ lọt thỏm giữa thân thiệp thay vì nằm ở góc trên như chủ đích. */
+.ob__skip{
+  position:absolute;
+  right:calc(env(safe-area-inset-right) + var(--pad));
+  top:calc(env(safe-area-inset-top) + .85rem);
+  z-index:5;
+  min-height:44px;
+  padding:0 .75rem;
+  font-family:var(--f-ui);
+  font-size:var(--t-2xs);
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(255,253,247,.72);
+  text-shadow:0 1px 6px rgba(10,18,6,.6);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .5s var(--ease);
+}
+.ob__skip.is-shown{ opacity:1; pointer-events:auto }
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Trạng thái
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* sealed — chỉ thấy phong thư niêm phong, nằm cân giữa khung như mockup 1.
+   Sang bước cào thư mới lùi xuống chỗ mặc định để nhường chỗ thiệp trồi lên. */
+.ob[data-state="sealed"] .ob__env{ transform:translateY(-23%) }
+.ob[data-state="sealed"] .ob__card{
+  opacity:0;
+  transform:translateY(16%);
+}
+.ob[data-state="sealed"] .ob__seal{ animation:obBreathe 2.8s var(--ease) infinite }
+@keyframes obBreathe{
+  0%,100%{ transform:translate(-50%,-50%) scale(1) }
+  50%    { transform:translate(-50%,-50%) scale(1.05) }
+}
+
+/* scratch + revealed — thiệp trồi lên khỏi miệng thư, hiện lớp nhũ */
+/* trồi cao đủ để dòng ngày 07.03.27 ở chân thiệp vẫn đọc được */
+.ob[data-state="scratch"] .ob__card,
+.ob[data-state="revealed"] .ob__card{
+  opacity:1;
+  transform:translateY(-64%);
+}
+.ob[data-state="scratch"] .ob__from,
+.ob[data-state="revealed"] .ob__from{ opacity:0 }
+.ob[data-state="scratch"] .ob__hint{ opacity:1 }
+.ob[data-state="scratch"] .ob__foil{ opacity:1; pointer-events:auto }
+.ob[data-state="revealed"] .ob__foil{ opacity:0 }
+.ob[data-state="scratch"] .ob__cta,
+.ob[data-state="revealed"] .ob__cta,
+.ob[data-state="closing"] .ob__cta,
+.ob[data-state="open"] .ob__cta,
+.ob[data-state="done"] .ob__cta{ opacity:0 }
+
+/* closing — thiệp tụt lại vào thư, màn hình trở về đúng mockup 4 */
+.ob[data-state="closing"] .ob__card{
+  opacity:0;
+  transform:translateY(16%);
+}
+.ob[data-state="closing"] .ob__from{ opacity:0 }
+
+/* open — thư đóng mờ đi, thư mở hiện lên, thiệp và ảnh xoè ra */
+.ob[data-state="open"] .ob__env,
+.ob[data-state="done"] .ob__env{ opacity:0; transform:translateY(4%) }
+.ob[data-state="open"] .ob__envOpen,
+.ob[data-state="open"] .ob__pocket,
+.ob[data-state="open"] .ob__foldSeal,
+.ob[data-state="done"] .ob__envOpen,
+.ob[data-state="done"] .ob__pocket,
+.ob[data-state="done"] .ob__foldSeal{ opacity:1 }
+/* Toạ độ đo trực tiếp trên mockup 5: thiệp dựng thẳng (không nghiêng), rộng
+   55% THÂN thư, đỉnh thiệp ở 11% chiều cao thân thư — nằm trọn trong lòng
+   thư chứ không nhô lên khỏi miệng thư. */
+.ob[data-state="open"] .ob__card,
+.ob[data-state="done"] .ob__card{
+  opacity:1;
+  transform:translate(-25%,-15.5%) scale(.758);
+}
+.ob[data-state="open"] .ob__polaroid,
+.ob[data-state="done"] .ob__polaroid{
+  opacity:1;
+  transform:translateY(0) rotate(4deg);
+}
+.ob[data-state="open"] .ob__skip,
+.ob[data-state="done"] .ob__skip{ opacity:0; pointer-events:none }
+
+/* done — cả cụm phóng to rồi tan vào màn HOME */
+.ob[data-state="done"] .ob__stage{
+  transform:scale(1.12);
+  transition:transform .8s var(--ease);
+}
+
+
+/* Máy nằm ngang: chiều cao rất thấp, nên khoá cụm theo chiều cao khung nhìn
+   thay vì theo bề ngang, nếu không phong thư sẽ tràn ra ngoài màn hình. */
+@media (max-height:34rem){
+  .ob__stage{
+    width:auto;
+    height:min(100% - 1rem, 26rem);
+    aspect-ratio:3 / 3.9;
+  }
+}
+
+/* Không có chuyển động: bỏ hẳn màn cào, vào thẳng trạng thái mở. */
+@media (prefers-reduced-motion:reduce){
+  .ob__bg{ animation:none }
+  .ob__ctaLine{ animation:none }
+  .ob[data-state="sealed"] .ob__seal{ animation:none }
+}

@@ -1,126 +1,90 @@
 # Thiệp mời cưới online — Chí Thành & Ngọc Trinh
 
-Website thiệp mời dựng lại theo `Design Gốc/`, dùng đúng ảnh nền và các lớp hoạ tiết
-đã tách sẵn trong `Material/`, với hiệu ứng chuyển động mô phỏng `Clips Animation/video.mp4`.
+Dựng theo 8 mockup đánh số trong `Wedding/Wedding Invitation Flow/`, ảnh lấy từ
+`Wedding/SOURCE HÌNH/`. Ưu tiên mobile: bố cục không tràn ngang ở bất kỳ bề ngang
+máy nào.
+
+Chủ nhật **07.03.2027** · Claris Palace Hall, 22 Hiệp Bình, Thủ Đức, TP.HCM.
 
 ## Chạy thử
 
-Cần chạy qua HTTP (mở thẳng `file://` sẽ bị chặn một số tài nguyên):
+Cần chạy qua HTTP — mở thẳng `file://` sẽ chặn ES module:
 
 ```bash
-cd web
-python -m http.server 8080
+python3 -m http.server 8099
 ```
 
-Rồi mở <http://localhost:8080>.
+Rồi mở <http://localhost:8099>.
 
 ## Cấu trúc
 
 ```
-web/
-├─ index.html          # 3 màn: phong thư · thiệp chính · our story
-├─ css/style.css       # bảng màu + toàn bộ hiệu ứng
-├─ js/main.js          # mở thư, parallax, đếm ngược, nhạc, RSVP
-└─ assets/             # ảnh đã tách lớp & nén từ Material/
+index.html              onboarding + 3 màn hình
+css/
+  tokens.css            bảng màu, thang chữ, nền tảng chống tràn
+  onboarding.css        phong thư · cào thiệp · mở thư
+  home.css              collage, đếm ngược, sổ mời, đĩa
+  story.css             giới thiệu, dòng thời gian, lời kết
+  detail.css            trái tim, lịch trình, bản đồ, RSVP
+js/
+  main.js               khởi động, nối các module
+  router.js             chuyển màn hình + vuốt ngang
+  onboarding.js         máy trạng thái 5 bước
+  scratch.js            lớp nhũ bạc cào được
+  reveal.js             hiện dần khi cuộn + thị sai
+  countdown.js          đếm ngược, neo ở +07:00
+  audio.js              nhạc nền theo đĩa than
+  rsvp.js               form xác nhận tham dự
+assets/photos/          ảnh WebP dựng từ SOURCE HÌNH
+tools/                  script dựng ảnh + kiểm thử (không deploy)
 ```
 
-## Ba màn hình
+## Luồng
 
-| Màn | Nội dung | Hiệu ứng |
-|---|---|---|
-| **1 · Phong thư** | nền xanh mờ, phong thư kem, triện sáp chữ T | chữ nổi dần lên, phong thư nhấc nhẹ, chạm để mở |
-| **2 · Thiệp chính** | phong thư mở, Save the date, đếm ngược, boarding pass, bản đồ, RSVP | thiệp trượt ra khỏi phong thư theo cuộn, parallax lan/bồ câu, reveal từng khối |
-| **3 · Our Story** | khung ren oval, chuyện tình, nhẫn cưới, ảnh cưới tách nền | mở bằng triện "Our Story", chuyển cảnh màn lụa |
+```
+onboarding: niêm phong → cào → hiện thiệp → thư đóng lại → thư mở → HOME
+HOME  ──[triện Our Story]──▶  OUR STORY  ──[nav ›]──▶  WEDDING DETAIL
+      ──[đĩa Wedding Details]────────────────────────▶
+```
 
-### Màn Our Story dựng thế nào
+Ba màn nằm chung một tài liệu, chuyển bằng mờ chồng chứ không tải lại trang: không
+chớp trắng, nhạc chạy xuyên suốt, ảnh giữ nguyên trong cache. Trên máy cảm ứng có
+thể vuốt ngang để chuyển.
 
-Giống hệt `Design Gốc/3.png`: **một khung ren duy nhất** ôm trọn bài viết, cô dâu
-chú rể đã tách nền đứng **bên trong và đè lên** phần dưới khung, bệ hoa che thân dưới.
+## Dựng lại ảnh
 
-**Khung ren co giãn được** — `frame-oval.webp` gốc là hình bầu dục cố định, không
-ôm nổi bài viết dài trên màn hình hẹp (chữ sẽ tràn ra hai chỏm hẹp). Nên khung
-được cắt làm 3 mảnh:
+Sau khi thay ảnh trong `Wedding/SOURCE HÌNH/`, sửa bảng `RECIPES` trong
+`tools/build-images.py` rồi chạy:
 
-| Mảnh | Vai trò |
-|---|---|
-| `oval-top.webp` | chỏm trên, giữ nguyên tỉ lệ thật |
-| `oval-mid.webp` | lát ren mỏng lấy **đúng chỗ eo rộng nhất** (nơi hai bên gần như thẳng đứng), lật gương thành ô lặp liền mạch |
-| `oval-bot.webp` | chỏm dưới kèm hoa ly và chùm quả rủ |
+```bash
+python3 tools/build-images.py
+```
 
-CSS xếp 3 mảnh theo cột flex, mảnh giữa `repeat-y` giãn theo lượng chữ. Nhờ vậy
-khung luôn ôm vừa bài viết, hai chỏm không méo, thớ ren không bị kéo thành vệt.
+Sinh WebP ở 640 / 1080 / 1600px cho `srcset`. Ảnh HEIC được giải mã qua `sips`.
 
-**Ảnh cưới tách nền** — `assets/couple-cutout.webp` tách từ `Material/IMG_1210.JPG`
-bằng `rembg` (model `u2net_human_seg` + alpha matting, giữ viền tóc và ren váy).
-Muốn tách lại từ ảnh khác: `rembg i <ảnh-gốc> <ảnh-ra>.png`, rồi cắt sát viền và
-xuất WebP.
+## Kiểm thử
 
-### Trình tự mở thư (bám theo video)
+Cần server đang chạy ở cổng 8099. Không cần cài gói nào — điều khiển Chrome qua
+DevTools Protocol bằng WebSocket có sẵn của Node 24.
 
-1. Chạm phong thư → triện sáp bung ra và mờ dần
-2. Thiệp trượt lên khỏi phong thư
-3. Màn lụa trắng quét từ dưới lên phủ kín, đổi màn, rồi quét tiếp lên trên
-4. Hiện thiệp chính
+```bash
+node tools/audit.mjs                 # kiểm tràn ngang mọi khổ máy
+node tools/audit.mjs --shots         # kèm chụp màn hình vào tools/shots/
+node tools/audit.mjs --w 844 --h 390 # máy nằm ngang
+node tools/flow-check.mjs            # chạy thật luồng cào thiệp → HOME
+node tools/flow-check.mjs --reduced  # chế độ tắt chuyển động
+```
 
-## Bảng màu (lấy từ ảnh gốc)
+Soi riêng từng bước của màn mở thiệp:
 
-| Biến | Mã | Dùng cho |
-|---|---|---|
-| `--green-1` | `#8fa068` | xanh sáng phía trên nền |
-| `--green-2` | `#5f7442` | xanh trung |
-| `--green-3` | `#2f3f26` | xanh đậm phía dưới |
-| `--cream` | `#f7f1e3` | giấy thiệp |
-| `--ink` | `#2c3823` | chữ xanh rêu |
-| `--sage` | `#b9bd94` | triện sáp |
-| `--gold` | `#c3a86c` | chữ lồng |
-| `--wine` | `#8e2231` | nút *Gửi xác nhận* |
+```bash
+node tools/audit.mjs --screen ob --state scratch --shots
+```
 
-## Cần chỉnh trước khi gửi cho khách
+## Còn để ngỏ
 
-**1. Ngày giờ** — sửa ở hai chỗ cho khớp nhau:
-- `js/main.js` → hằng `WEDDING`
-- `index.html` → khối `.bigdate` và `.pass__meta`
-
-> ⚠️ **Thiết kế gốc đang ghi hai ngày khác nhau.** Trong `Design Gốc/2.png`, thiệp
-> Save the date và phần đếm ngược ghi **07.03.27 / Sunday, 07 March 2027**, nhưng ô
-> DATE trên boarding pass lại ghi **05.03.2027**. Ngày 07.03.2027 rơi đúng Chủ nhật
-> (05.03.2027 là thứ Sáu), nên trang đang dùng **07.03.2027** ở mọi chỗ.
->
-> Vì lý do đó, phần boarding pass được **dựng lại bằng chữ thật** thay vì dùng ảnh
-> `assets/boarding-pass.webp` — nếu dùng ảnh thì trang sẽ hiện hai ngày mâu thuẫn.
-> Cách này cũng giúp vé luôn nét và đọc được trên mọi cỡ màn hình. Muốn quay lại
-> đúng ảnh của thiết kế, mở `css/style.css` và đổi:
-> `.pass__img{ display:none }` → `display:block`, rồi `.pass__alt{ display:grid }` → `display:none`.
-> Nhớ sửa ngày trong ảnh trước khi dùng.
-
-**2. RSVP** — hiện lưu tạm vào `localStorage` của máy khách.
-Muốn nhận được phản hồi thật thì nối vào Google Form / Sheet / API trong
-`js/main.js`, ngay chỗ chú thích `// Lưu tạm trên máy khách`.
-
-**3. Bản đồ** — ảnh bản đồ là ảnh tĩnh của thiết kế, bấm vào sẽ mở chỉ đường
-Google Maps. Đổi địa chỉ ở thuộc tính `href` của `.mapcard` trong `index.html`.
-
-## Nhạc nền
-
-Bài **Beautiful In White** (`assets/music.mp3`) tự phát khi mở trang, lặp lại vô hạn,
-bấm đĩa than để tạm dừng/phát tiếp:
-
-- **Tự phát khi mở web** — trang thử phát nhạc ngay khi vừa tải xong. Hầu hết
-  trình duyệt di động chặn autoplay có tiếng khi chưa có thao tác nào của người
-  dùng, nên nếu bị chặn, nhạc sẽ tự bật ngay ở **cử chỉ chạm/click đầu tiên**
-  (thường chính là lúc khách chạm mở phong thư — hành động "mở web" theo đúng
-  nghĩa trải nghiệm của thiệp mời).
-- **Bấm đĩa than để dừng/tiếp tục** — `pause()` không tua nhạc về đầu, nên bấm
-  dừng rồi bấm lại sẽ phát tiếp đúng chỗ đang dừng, không phát lại từ đầu bài.
-- **Lặp mãi mãi** — thẻ `<audio loop>` tự lặp lại toàn bộ bài hát vô hạn, không
-  cần JavaScript can thiệp.
-
-Muốn đổi nhạc: thay file `assets/music.mp3` bằng file khác (giữ nguyên tên),
-hoặc sửa `src` của thẻ `<audio id="bgm">` trong `index.html`.
-
-## Tương thích
-
-- Mobile-first (thiết kế gốc là khổ dọc), có bố cục riêng cho màn ≥ 820px
-- Boarding pass: màn nhỏ dùng ảnh gốc, màn lớn dựng lại bằng chữ thật cho sắc nét
-- Tôn trọng `prefers-reduced-motion`
-- Ảnh dùng WebP (hoạ tiết có nền trong suốt) và JPEG progressive (ảnh nền, ảnh cưới)
+- **RSVP chưa có backend.** Phản hồi lưu trong `localStorage` của máy khách; nối API
+  tại chỗ đánh dấu trong `js/rsvp.js`.
+- **Chân dung ở OUR STORY chưa tách nền** vì không ảnh gốc nào có kênh alpha. Hiện
+  dùng mặt nạ vòm với đáy mờ dần hoà vào nền kem. Nếu có file PNG nền trong, đặt
+  vào `assets/photos/cut-groom.png` và `cut-bride.png` là CSS tự nhận.

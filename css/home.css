@@ -1,0 +1,329 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   SCREEN · HOME  (mockup 6)
+   Nền ảnh rừng mờ cố định, thẻ ảnh collage, đếm ngược, sổ mời, đĩa ăn.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.screen--home{
+  position:relative;
+  background:
+    linear-gradient(180deg,
+      rgba(22,32,15,.55) 0%,
+      rgba(22,32,15,.25) 28%,
+      rgba(22,32,15,.55) 62%,
+      rgba(22,32,15,.92) 100%),
+    url("../assets/bg-main.jpg") center top / cover no-repeat fixed;
+  color:var(--cream-50);
+}
+
+/* background-attachment:fixed tốn kém và bị iOS bỏ qua — chuyển sang cuộn
+   theo trang trên máy cảm ứng. */
+@media (hover:none){
+  .screen--home{ background-attachment:scroll }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Collage đầu trang
+   Dùng thẳng hai tác phẩm ghép sẵn trong Wedding/Material/ thay vì dựng lại
+   từng mảnh bằng CSS — chữ, ảnh, mảnh giấy, phong thư đều đã nằm trong ảnh
+   nên khớp bản thiết kế tuyệt đối.
+
+   Mốc căn (đo trên chính hai file, quy về khung .hero__stage rộng bằng
+   material 1): thẻ ảnh chiếm x 2.6%→97.3%, y 21.6%→97.9% của material 1.
+   ═══════════════════════════════════════════════════════════════════════ */
+.hero{
+  padding:calc(env(safe-area-inset-top) + 1.25rem) var(--pad) 0;
+  /* .stage đặt overflow:clip cả hai trục, sẽ xén mất phần triện Our Story nhô
+     xuống dưới đáy khung. Ở đây chỉ cần chặn tràn ngang, nên mở lại trục dọc.
+     clip + visible là cặp hợp lệ; hidden + visible thì trình duyệt ép về auto. */
+  overflow-x:clip;
+  overflow-y:visible;
+}
+
+/* container-type để dùng được cqw: 1cqw = 1% bề ngang khung. Các phép dịch
+   nhỏ bên dưới ghi theo px quy đổi ở bề ngang khung 351px (máy 390px), nhưng
+   viết bằng cqw nên vẫn giữ đúng tỉ lệ ở mọi khổ máy. */
+.hero__stage{
+  position:relative;
+  container-type:inline-size;
+  width:min(100%, 30rem);
+  margin-inline:auto;
+}
+
+/* thẻ ảnh có viền trắng; quyết định luôn chiều cao của khung */
+.hero__art{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+/* Tên chữ ký, đặt trong lòng thẻ và canh giữa theo chiều ngang. */
+.hero__names{
+  position:absolute;
+  left:50%;
+  top:4.5%;
+  z-index:4;
+  width:66%;
+  height:auto;
+  transform:translateX(-50%);
+  filter:drop-shadow(0 .6% 1.4% rgba(12,20,8,.5));
+}
+
+/* Mảnh giấy và phong thư kề sát nhau thành một cụm, canh giữa thẻ.
+   align-items:center để hai mảnh cân nhau theo trục dọc dù khác chiều cao;
+   margin âm kéo phong thư chồng nhẹ lên mép giấy cho hai mảnh chạm nhau. */
+.hero__collage{
+  position:absolute;
+  left:50%;
+  bottom:calc(17% - 1.99cqw);   /* cả cụm xuống thêm 4px */
+  z-index:3;
+  width:97.24%;          /* nhỏ hơn 15% so với 114.4% */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  /* Trừ thêm 1.14cqw (4px) vì mảnh giấy được dịch phải 8px, làm cụm lệch tâm.
+     Bù lại thì phần nhô ra hai bên cân nhau thay vì 5px trái / 13px phải. */
+  transform:translateX(calc(-50% - 1.14cqw));
+}
+/* position:relative + left/top dịch phần nhìn thấy mà không đẩy mảnh kia đi. */
+.hero__note{
+  position:relative;
+  z-index:2;             /* mảnh giấy nằm trên phong thư */
+  left:4.57cqw;          /* dịch phải thêm 3px */
+  width:44%;
+  height:auto;
+  filter:drop-shadow(0 1% 2% rgba(8,14,5,.32));
+}
+.hero__envelope{
+  position:relative;
+  left:-0.57cqw;         /* dịch trái 2px */
+  top:1.71cqw;           /* dịch xuống thêm 3px */
+  width:53%;
+  height:auto;
+  margin-left:-3%;
+  filter:drop-shadow(0 1% 2% rgba(8,14,5,.3));
+}
+
+/* Đĩa than: góc trên phải trong lòng thẻ, luôn tròn nhờ aspect-ratio 1. */
+.vinyl{
+  position:absolute;
+  right:-2.98cqw;        /* dịch phải thêm 3px */
+  top:-3.35cqw;          /* dịch lên thêm 3px */
+  z-index:5;
+  width:21%;             /* 15% ban đầu, to hơn 40% */
+  min-width:44px;
+  min-height:44px;
+  aspect-ratio:1;
+  border-radius:50%;
+}
+.vinyl img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  border-radius:50%;
+}
+.vinyl[aria-pressed="true"] img{ animation:spin 4.5s linear infinite }
+@keyframes spin{ to{ transform:rotate(360deg) } }
+
+/* Triện Our Story: góc dưới phải trong lòng thẻ. */
+.seal-btn{
+  position:absolute;
+  right:-2.92cqw;        /* dịch phải thêm 3px */
+  bottom:-13.02cqw;      /* dịch xuống thêm 30px */
+  z-index:5;
+  width:29.4%;           /* 21% ban đầu, to hơn 40% */
+  min-width:44px;
+  min-height:44px;
+  aspect-ratio:1;
+  transition:transform .4s var(--ease);
+}
+/* ảnh con dấu tỉ lệ 1.022 chứ không vuông chằn chặn, contain để khỏi bị bóp */
+.seal-btn img{ width:100%; height:100%; object-fit:contain }
+.seal-btn:hover,.seal-btn:focus-visible{ transform:rotate(-6deg) scale(1.05) }
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Đếm ngược
+   ═══════════════════════════════════════════════════════════════════════ */
+.count{
+  padding:var(--sec) 0 calc(var(--sec) * .7);
+  text-align:center;
+}
+.count__lilyA,.count__lilyB{
+  position:absolute;
+  width:clamp(5rem,26vw,11rem);
+  opacity:.9;
+  pointer-events:none;
+}
+.count__lilyA{ left:-9%; top:6% }
+.count__lilyB{
+  right:-10%;
+  top:2%;
+  transform:scaleX(-1) translate3d(0,var(--par-y,0px),0);
+}
+
+.count__kicker{
+  margin:0 0 .5em;
+  font-family:var(--f-ui);
+  font-size:var(--t-xs);
+  font-weight:500;
+  letter-spacing:.2em;
+}
+.count__meet{
+  margin:0;
+  font-family:var(--f-ui);
+  font-size:var(--t-lg);
+  font-weight:400;
+  letter-spacing:.06em;
+}
+.count__date{
+  margin:.15em 0 0;
+  font-family:var(--f-script);
+  font-size:var(--t-2xl);
+  line-height:1.25;
+}
+.count__lead{
+  margin:1.6em 0 .9em;
+  font-family:var(--f-ui);
+  font-size:var(--t-sm);
+  font-weight:500;
+}
+
+/* Bốn ô bằng nhau + dấu hai chấm là pseudo-element, nên hàng này không thể
+   tràn ngang dù màn hình hẹp tới đâu. */
+.clock{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  align-items:start;
+  width:100%;
+}
+.clock__u{
+  position:relative;
+  display:grid;
+  justify-items:center;
+  gap:.15em;
+  min-width:0;
+}
+.clock__u + .clock__u::before{
+  content:":";
+  position:absolute;
+  left:0;
+  top:.06em;
+  transform:translateX(-50%);
+  font-family:var(--f-display);
+  font-size:clamp(1.6rem,8.5vw,3rem);
+  font-weight:300;
+  line-height:1;
+  opacity:.55;
+}
+.clock b{
+  font-family:var(--f-display);
+  font-weight:400;
+  font-variant-numeric:tabular-nums;
+  font-size:clamp(1.7rem,9.5vw,3.4rem);
+  line-height:1;
+  letter-spacing:-.01em;
+}
+.clock small{
+  font-family:var(--f-ui);
+  font-size:clamp(.58rem,2.5vw,.8rem);
+  font-weight:300;
+  letter-spacing:.1em;
+  opacity:.78;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Sổ mời
+   ═══════════════════════════════════════════════════════════════════════ */
+.ledger{ padding:0 0 var(--sec) }
+
+.ledger__lead{
+  margin:0;
+  font-family:var(--f-ui);
+  font-size:var(--t-md);
+  font-weight:400;
+}
+.ledger__names{
+  margin:0 0 1.4em;
+  font-family:var(--f-script);
+  font-size:var(--t-xl);
+  line-height:1.2;
+}
+
+.ledger__list{ margin:0 }
+.ledger__row{
+  display:grid;
+  gap:.15rem .9rem;
+  padding:1.15rem 0;
+  border-top:1px solid rgba(253,246,227,.28);
+}
+.ledger__row:last-child{ border-bottom:1px solid rgba(253,246,227,.28) }
+
+.ledger__value{
+  font-family:var(--f-display);
+  font-weight:400;
+  font-size:clamp(2rem,11vw,3.2rem);
+  line-height:1;
+  letter-spacing:-.015em;
+}
+.ledger__meta{
+  margin:0;
+  text-align:left;
+}
+.ledger__meta b{
+  display:block;
+  font-family:var(--f-ui);
+  font-size:var(--t-md);
+  font-weight:500;
+}
+.ledger__meta span{
+  display:block;
+  font-family:var(--f-body);
+  font-size:var(--t-sm);
+  line-height:1.4;
+  opacity:.85;
+}
+
+/* Từ 24rem trở lên mới đủ chỗ cho hai cột; dưới mức đó xếp chồng. */
+@media (min-width:24rem){
+  .ledger__row{
+    grid-template-columns:auto 1fr;
+    align-items:center;
+  }
+  .ledger__meta{ text-align:right }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Đĩa "Our Wedding Details"
+   Một ảnh ghép sẵn duy nhất (Wedding/Material/plate wedding.png) thay cho
+   đĩa, lụa và thiệp từng dựng bằng CSS — nhờ đó có luôn nơ lụa và bộ dao nĩa
+   mà bản dựng tay không có.
+   ═══════════════════════════════════════════════════════════════════════ */
+.plate{
+  padding:0 0 var(--sec);
+  display:grid;
+  place-items:center;
+}
+
+.plate__btn{
+  display:block;
+  width:100%;
+  transition:transform .45s var(--ease);
+}
+.plate__btn:hover,.plate__btn:focus-visible{ transform:translateY(-4px) }
+
+.plate__art{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Từ tablet trở lên: nới khung nội dung
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (min-width:48rem){
+  :root{ --wrap:40rem }
+}
