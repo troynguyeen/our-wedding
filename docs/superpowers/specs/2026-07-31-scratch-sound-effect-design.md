@@ -1,7 +1,7 @@
 # Scratch Screen — Paper Scratching Sound Effect
 
 **Date:** 2026-07-31
-**Status:** Designed, not yet built.
+**Status:** Built. Two details changed during the build — see *Asset build*.
 **Source audio:** `Wedding/paper scratching sound .mov`
 
 ## Goal
@@ -50,19 +50,31 @@ iOS today. That is pre-existing behaviour and out of scope here.
 
 ## Asset build
 
-One-off conversion with macOS `afconvert` (no `ffmpeg` on this machine), producing
+Conversion with macOS `afconvert` (no `ffmpeg` on this machine), producing
 `assets/sfx-scratch.m4a`:
 
 - downmix to mono — paper noise gains nothing from stereo and mono halves the size
-- trim ~50ms of leading and ~30ms of trailing silence, so the loop seam does not
-  dip into a gap
+- trim the leading digital silence (2420 frames, 54.9ms)
 - normalise peak to ≈ −3 dBFS; the source at −22 dBFS is too quiet to be heard
-  under a thumb on a phone speaker
-- encode AAC 96kbps → roughly 42KB
+  under a thumb on a phone speaker. Measured gain: +19.1 dB
+- encode AAC 96kbps
+
+Result: 35.1KB, 3.47s, mono 44.1kHz.
 
 Playback loudness is set by `VOLUME` in `sfx.js`, so retuning it is a one-number
-code change rather than a re-encode. The conversion command is documented in
-`README.md` next to the existing image-rebuild instructions.
+code change rather than a re-encode.
+
+**Changed during the build**, both deliberate:
+
+1. **The trailing silence is kept.** The design called for trimming both ends.
+   Measurement showed the last 20ms of the source is true digital silence (final
+   sample exactly 0), so looping the untrimmed tail gives a seam of `0 → ~0` — no
+   click. Trimming the tail would have *created* the amplitude step the trim was
+   meant to avoid.
+2. **A script, not a documented command.** The conversion lives in
+   `tools/build-audio.py`, mirroring the existing `tools/build-images.py`. The
+   source `.mov` is gitignored while the encoded asset is committed, so the script
+   is the only record of how that binary was produced.
 
 ## Architecture
 
@@ -148,11 +160,29 @@ The `prefers-reduced-motion` path skips the scratch screen entirely
 
 ## Verification
 
-- `node tools/flow-check.mjs` and `node tools/flow-check.mjs --reduced` — the
-  onboarding flow still completes and the console stays clean
-- manual pass at `http://localhost:8099` on a mobile-width viewport, listening for:
-  sound starting only once the finger moves, stopping when it rests, no click at
-  either end, and a clean handover to the background music at reveal
+`tools/flow-check.mjs` grew five checks covering the effect. They drive real
+pointer events at the canvas in headless Chrome and observe the effect by wrapping
+`AudioBufferSourceNode.start/stop` and `AudioParam.linearRampToValueAtTime` from the
+test side. Nothing test-only was added to `js/sfx.js` — the production module
+exposes no hooks.
+
+| Check | Asserts |
+|---|---|
+| chạm xuống nhưng chưa di thì chưa có tiếng cào | pointer down alone starts nothing |
+| di ngón tay thì tiếng cào chạy | a looping source is running |
+| tiếng cào vào bằng fade chứ không bật thẳng | gain ramps up rather than jumping |
+| ngừng tay thì tiếng cào tắt | after the idle threshold, gain ramps to 0 and the source stops |
+| cào tiếp thì tiếng cào vào lại | a new source starts on the next stroke |
+| thiệp lật mở thì tiếng cào đã tắt hẳn | nothing is left playing at reveal |
+
+All four behavioural checks were watched failing (`started=0`, `ramps=[]`) before
+`sfx.js` existed. After implementation: **21/21** pass on the normal run, **12/12**
+on `--reduced`, console clean in both. `tools/audit.mjs` still passes at every
+width.
+
+Still open, and it needs a human: nobody has *listened* to the result yet. The
+checks prove the envelope is scheduled correctly, not that the clip sounds right at
+`VOLUME = 0.6` on a phone speaker.
 
 ## Out of scope
 

@@ -16,9 +16,12 @@
    ═══════════════════════════════════════════════════════════════════════ */
 /* Khối cao hơn trái tim một quãng: đôi uyên ương cần chỗ đứng ở góc dưới
    trái mà không đè lên tên. Tỉ lệ cố định nên bố cục giữ nguyên mọi bề ngang. */
+/* Tỉ lệ lấy thẳng từ mockup 8: khối tim chiếm y 0→4076 trên khung 4098 rộng,
+   tức gần vuông. Trước đây khối này cao 1.207× bề ngang, dư 21% so với bản
+   thiết kế và đó là một phần khiến cả màn bị kéo dài ra. */
 .heart{
   container-type:inline-size;
-  aspect-ratio:3 / 3.62;
+  aspect-ratio:4098 / 4076;
 }
 
 .heart__mono{
@@ -32,7 +35,16 @@
   opacity:.55;
 }
 
+/* Khung hình tim đo trên mockup: mép phải ở x 96.7%, tràn khỏi mép trái,
+   đỉnh ở y 6.5% và mũi ở y 90.8% của khối tim. */
 .heart__svg{
+  position:absolute;
+  left:-12.8%;
+  top:1.7%;
+  width:116.5%;
+  height:91%;
+}
+.heart__arc{
   position:absolute;
   left:-2%;
   top:5%;
@@ -48,10 +60,12 @@
   letter-spacing:.06em;
 }
 
+/* Vị trí đo trên mockup 8: khối tên chiếm x 10.9%→63.4% bề ngang,
+   y 11%→33% chiều cao khối tim. */
 .heart__names{
   position:absolute;
-  left:4%;
-  top:18%;
+  left:10.9%;
+  top:11%;
   z-index:2;
   width:62%;
   margin:0;
@@ -65,13 +79,14 @@
 .heart__names span:last-child{ margin-left:12% }
 .heart__amp{
   font-size:.5em;
-  margin:-.18em 0 -.14em 32%;
+  font-style:normal;
 }
 
+/* mockup: mép phải cụm số ở x 82.4%, chữ số cao 306/4098 ≈ 10.7cqw */
 .heart__date{
   position:absolute;
-  right:13%;
-  top:19%;
+  right:17.6%;
+  top:19.5%;
   z-index:2;
   display:grid;
   justify-items:center;
@@ -79,7 +94,7 @@
   margin:0;
   font-family:var(--f-display);
   font-weight:400;
-  font-size:9.5cqw;
+  font-size:10.7cqw;
   line-height:1;
   color:var(--cream-50);
   font-variant-numeric:tabular-nums;
@@ -91,18 +106,25 @@
   background:rgba(255,253,247,.6);
 }
 
+/* Vị trí đo trên mockup 8: mép phải chủ thể ở x≈2100, đỉnh đầu ở y≈1400 của
+   khung 4098×4076. Ảnh tràn khỏi mép trái và bị dải xé cắt ngang phía dưới,
+   đúng như bản thiết kế — .stage cắt phần thừa nên không sinh cuộn ngang. */
 .heart__couple{
   position:absolute;
-  left:-5%;
-  bottom:0;
+  left:-4%;
+  bottom:4%;
   z-index:3;
-  width:47%;
+  width:55%;
   height:auto;
-  filter:drop-shadow(0 1cqw 2.4cqw rgba(20,4,6,.35));
+  /* ảnh đã có viền trắng nướng sẵn, chỉ cần chút đổ bóng cho tách khỏi nền vang */
+  filter:drop-shadow(0 .8cqw 1.8cqw rgba(20,4,6,.3));
 }
 
-/* Mép giấy xé giữa trái tim và phần lịch trình. Nằm trên đôi uyên ương để
-   che đường cắt thẳng ở đáy ảnh tách nền. */
+/* Đáy khối tim trong mockup là một DẢI RƯỢU VANG tràn hết bề ngang, mép dưới
+   xé rách — không phải dải kem có răng cưa hướng lên. Dải này phủ ngang chân
+   đôi uyên ương (nên z cao hơn ảnh), đồng thời nối liền mũi trái tim với hai
+   mép trái phải, chỗ mà nếu chỉ có hình tim thì sẽ hở ra nền kem.
+   Cao 0.080 × bề ngang, đo trên mockup (y 3748→4076 của khung 4098 rộng). */
 .heart::after{
   content:"";
   position:absolute;
@@ -110,12 +132,12 @@
   left:0;
   right:0;
   bottom:0;
-  height:clamp(1.25rem,5vw,2.5rem);
-  background:var(--cream-100);
-  clip-path:polygon(0 62%,4% 44%,9% 66%,14% 40%,20% 62%,26% 38%,32% 60%,
-                    38% 36%,44% 58%,50% 34%,56% 58%,62% 36%,68% 60%,
-                    74% 38%,80% 62%,86% 40%,92% 64%,96% 44%,100% 62%,
-                    100% 100%,0 100%);
+  height:8cqw;
+  background:var(--wine-800);
+  clip-path:polygon(0 0,100% 0,
+                    100% 62%,96% 44%,92% 66%,86% 40%,80% 62%,74% 38%,68% 60%,
+                    62% 36%,56% 58%,50% 34%,44% 58%,38% 36%,32% 60%,
+                    26% 38%,20% 62%,14% 40%,9% 66%,4% 44%,0 62%);
 }
 
 
@@ -125,7 +147,7 @@
 .sched{
   /* bề ngang dành cho vé và dải ảnh bên phải; cột chữ lấy phần còn lại */
   --deco-w:27%;
-  padding:clamp(1.5rem,6vw,3rem) 0 clamp(2.5rem,9vw,4rem);
+  padding:clamp(1rem,4.5vw,2.2rem) 0 clamp(1.75rem,6.5vw,3rem);
   background:var(--cream-100);
 }
 
@@ -211,22 +233,22 @@
 .sched__item{
   position:relative;
   width:50%;
-  padding:0 0 clamp(1.5rem,6vw,2.25rem);
+  padding:0 0 clamp(.85rem,3.4vw,1.35rem);
 }
 .sched__time{
   margin:0;
   font-family:var(--f-display);
   font-weight:400;
-  font-size:clamp(1.5rem,7.5vw,2.4rem);
+  font-size:clamp(1.1rem,4.8vw,1.75rem);
   line-height:1.1;
   color:var(--wine-700);
   font-variant-numeric:tabular-nums;
 }
 .sched__name{
-  margin:.1em 0 .2em;
+  margin:.1em 0 .15em;
   font-family:var(--f-ui);
   font-weight:500;
-  font-size:var(--t-md);
+  font-size:var(--t-sm);
   color:var(--wine-800);
 }
 .sched__note{
@@ -263,7 +285,7 @@
 
 .sched__thanks{
   width:min(100% - var(--pad) * 2, var(--wrap));
-  margin:clamp(1rem,4vw,2rem) auto 0;
+  margin:clamp(.6rem,2.4vw,1.2rem) auto 0;
   padding-right:var(--deco-w);
   font-family:var(--f-display);
   font-style:italic;
@@ -276,7 +298,7 @@
    Bản đồ trên nền nhung
    ═══════════════════════════════════════════════════════════════════════ */
 .map{
-  padding:clamp(2.5rem,9vw,4rem) 0;
+  padding:clamp(1.5rem,5.5vw,2.5rem) 0 clamp(1rem,4vw,1.75rem);
   background:
     radial-gradient(120% 80% at 50% 0%,rgba(160,60,60,.22),transparent 60%),
     var(--wine-900);
@@ -297,12 +319,13 @@
 
 .map__frame{
   position:relative;
-  padding:clamp(1rem,5vw,2rem);
+  padding:clamp(1.1rem,5.5vw,2.2rem);
 }
 .map__embed{
   display:block;
   width:100%;
-  aspect-ratio:4 / 3;
+  /* mockup đóng bản đồ trong khung ren nằm ngang dẹt, không phải khung 4:3 */
+  aspect-ratio:5 / 2;
   border:0;
   border-radius:.25rem;
   background:var(--cream-200);
@@ -316,7 +339,7 @@
 }
 
 .map__addr{
-  margin:clamp(1rem,4vw,1.75rem) 0 0;
+  margin:clamp(.7rem,2.8vw,1.2rem) 0 0;
   font-family:var(--f-body);
   font-size:var(--t-md);
   line-height:1.45;
@@ -324,7 +347,7 @@
 .map__btn{
   display:inline-block;
   min-height:44px;
-  margin-top:1.1rem;
+  margin-top:.8rem;
   padding:.7rem 2rem;
   border:1px solid rgba(255,253,247,.5);
   border-radius:999px;
@@ -347,7 +370,7 @@
    RSVP
    ═══════════════════════════════════════════════════════════════════════ */
 .rsvp{
-  padding:0 0 clamp(2.5rem,9vw,4rem);
+  padding:0 0 clamp(1.5rem,5.5vw,2.5rem);
   background:
     radial-gradient(110% 70% at 50% 100%,rgba(160,60,60,.2),transparent 62%),
     var(--wine-900);
@@ -355,14 +378,14 @@
 
 /* viền ren bao quanh form, cắt 9 ô từ assets/lace-card.webp */
 .rsvp__lace{
-  padding:clamp(1.1rem,5vw,2rem);
-  border:clamp(18px,5.5vw,30px) solid transparent;
+  padding:clamp(.8rem,3.6vw,1.5rem);
+  border:clamp(13px,4vw,22px) solid transparent;
   border-image:url("../assets/lace-card.webp") 62 round;
 }
 .rsvp__form{
   display:grid;
-  gap:1.1rem;
-  padding:clamp(1.25rem,5vw,2rem);
+  gap:.7rem;
+  padding:clamp(1rem,4vw,1.6rem);
   border-radius:.6rem;
   background:var(--cream-50);
 }
@@ -370,14 +393,14 @@
   margin:0;
   font-family:var(--f-ui);
   font-weight:600;
-  font-size:var(--t-lg);
+  font-size:var(--t-md);
   text-align:center;
   color:var(--ink);
 }
 
 .fld{
   display:grid;
-  gap:.4rem;
+  gap:.28rem;
   margin:0;
   padding:0;
   border:0;
@@ -402,7 +425,7 @@
   color:var(--ink);
   transition:border-color .25s var(--ease);
 }
-.fld textarea{ resize:vertical; min-height:5rem }
+.fld textarea{ resize:vertical; min-height:3.4rem }
 .fld input:focus,.fld select:focus,.fld textarea:focus{
   border-color:var(--wine-600);
 }
@@ -469,4 +492,10 @@
   .heart__curve{ font-size:15px }
   .sched{ --deco-w:34% }
   .sched__deco{ right:0; width:32% }
+}
+
+
+/* Chân trang màn này bám mockup: --sec dùng chung quá rộng so với bản thiết kế. */
+.screen--detail .foot{
+  padding:clamp(1.25rem,5vw,2.25rem) var(--pad) calc(env(safe-area-inset-bottom) + 1.5rem);
 }

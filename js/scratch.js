@@ -3,12 +3,18 @@
 
 const REVEAL_AT = 0.55;   // cào tới đâu thì tự lật mở
 const SAMPLE_MS = 120;    // giãn cách giữa hai lần đo độ phủ
+const IDLE_MS   = 120;    // ngừng di lâu hơn ngần này thì coi như thôi cào
 
 /**
  * @param {HTMLCanvasElement} canvas
- * @param {() => void} onReveal  gọi một lần khi đã cào đủ
+ * @param {object} handlers
+ * @param {() => void} handlers.onReveal          gọi một lần khi đã cào đủ
+ * @param {(active: boolean) => void} [handlers.onActive]
+ *   Bật/tắt theo việc khách có đang thực sự cào hay không. Chỗ này là nơi duy
+ *   nhất biết điều đó vì nó nắm hết pointer event, nên nó báo ra thay vì để
+ *   người dùng của module tự đoán.
  */
-export function makeScratch(canvas, onReveal){
+export function makeScratch(canvas, { onReveal, onActive }){
   const ctx = canvas.getContext('2d', { willReadFrequently: true });
   const probe = document.createElement('canvas');
   probe.width = probe.height = 64;
@@ -24,6 +30,26 @@ export function makeScratch(canvas, onReveal){
   // không lần resize() đầu tiên tưởng nhầm có nội dung cũ cần giữ lại, và
   // thao tác destination-in xoá sạch luôn lớp nhũ vừa sơn.
   let painted = false;
+  let active = false;
+  let idleTimer = 0;
+
+  /* Đặt tay xuống chưa phải là đang cào — phải có nét kéo thì mới tính. */
+  function setActive(on){
+    if (active === on) return;
+    active = on;
+    onActive?.(on);
+  }
+
+  function keepActive(){
+    setActive(true);
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => setActive(false), IDLE_MS);
+  }
+
+  function endActive(){
+    clearTimeout(idleTimer);
+    setActive(false);
+  }
 
   function paintFoil(){
     const { width: w, height: h } = canvas;
@@ -131,6 +157,7 @@ export function makeScratch(canvas, onReveal){
     const next = pointAt(e);
     erase(last, next);
     last = next;
+    keepActive();
 
     const now = performance.now();
     if (now - lastSample < SAMPLE_MS) return;
@@ -139,11 +166,16 @@ export function makeScratch(canvas, onReveal){
     if (cleared() >= REVEAL_AT){
       done = true;
       drawing = false;
+      // tắt tiếng cào trước khi lật thiệp, để nó fade ra đúng lúc nhạc nền vào
+      endActive();
       onReveal();
     }
   }
 
-  function onUp(){ drawing = false; }
+  function onUp(){
+    drawing = false;
+    endActive();
+  }
 
   canvas.addEventListener('pointerdown', onDown);
   canvas.addEventListener('pointermove', onMove);
@@ -161,6 +193,7 @@ export function makeScratch(canvas, onReveal){
 
   return function destroy(){
     done = true;
+    endActive();
     canvas.removeEventListener('pointerdown', onDown);
     canvas.removeEventListener('pointermove', onMove);
     canvas.removeEventListener('pointerup', onUp);

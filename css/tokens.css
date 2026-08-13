@@ -19,6 +19,9 @@
   --cream-50 :#fffdf7;
   --cream-100:#fdf6e3;
   --cream-200:#f7edd6;
+  /* Kem của mockup 7. Các dải ảnh màn OUR STORY được cắt thẳng từ mockup nên
+     mang sẵn màu này; nền màn phải khớp đúng thì mép ảnh mới tàng hình. */
+  --cream-mock:#fffcef;
   --paper    :#f3e8d0;
 
   /* — rượu vang: trái tim, nhung, nút gửi — */
@@ -78,8 +81,10 @@ body{
   -webkit-font-smoothing:antialiased;
   transition:background-color .45s var(--ease);
 }
-body[data-screen="story"],
 body[data-screen="detail"]{ background:var(--cream-100) }
+/* OUR STORY dùng kem của mockup, không phải kem chung — nếu để lệch thì lúc
+   cuộn quá đà (overscroll) sẽ lòi ra một dải khác màu dưới chân màn. */
+body[data-screen="story"]{ background:var(--cream-mock) }
 
 /* Khoá cuộn trong lúc onboarding. Dùng cả position:fixed vì iOS Safari
    bỏ qua overflow:hidden trên body khi bàn phím hoặc đà cuộn đang chạy. */
@@ -202,6 +207,10 @@ p,li,dd,dt,h1,h2,h3{ overflow-wrap:anywhere }
 .screen--detail .nav{
   background:linear-gradient(var(--cream-100) 68%,rgba(253,246,227,0));
 }
+/* nav dính nổi trên nền màn OUR STORY nên phải nhuộm đúng kem của mockup */
+.screen--story .nav{
+  background:linear-gradient(var(--cream-mock) 68%,rgba(255,252,239,0));
+}
 .nav__btn{
   display:flex;
   align-items:center;
@@ -233,7 +242,6 @@ p,li,dd,dt,h1,h2,h3{ overflow-wrap:anywhere }
   margin-inline:auto;
   opacity:.5;
 }
-.foot--cream{ background:var(--cream-100) }
 .foot--wine{ background:var(--wine-900) }
 .foot--wine .foot__mono{ opacity:.42 }
 

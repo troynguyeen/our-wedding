@@ -185,7 +185,9 @@
           <dt class="ledger__value">18:00</dt>
           <dd class="ledger__meta">
             <b>Meet us on</b>
-            <span>We can't wait to see you at our special day!</span>
+            <!-- ba chữ cuối dính liền: "day!" không bao giờ rơi xuống một mình,
+                 cả cụm "our special day!" cùng xuống dòng -->
+            <span>We can't wait to see you at our&nbsp;special&nbsp;day!</span>
           </dd>
         </div>
         <div class="ledger__row ledger__row--place" data-reveal data-d="2">
@@ -231,126 +233,97 @@
     </button>
   </nav>
 
-  <!-- who we are -->
-  <section class="intro">
-    <div class="intro__card" data-reveal>
-      <div class="intro__col">
-        <h2 class="intro__name">Nguyễn Chí Thành</h2>
-        <p class="intro__alias">Gia Trưởng</p>
-        <p class="intro__rank">(Trưởng Nam)</p>
-        <hr class="intro__rule">
-        <p class="intro__hi">Xin chào, mình là…</p>
-        <p class="intro__quote">“bạn này dễ thương quá.<br>chắc hong tên đâu”</p>
-        <hr class="intro__rule">
-        <p class="intro__job">DevOps Engineer</p>
-        <p class="intro__quote intro__quote--sm">“người trên núi”</p>
-        <img class="intro__portrait" src="assets/photos/story-groom.webp"
-             srcset="assets/photos/story-groom.webp 640w, assets/photos/story-groom@1080.webp 1080w"
-             sizes="(min-width: 40rem) 17rem, 44vw" width="640" height="853"
-             alt="Nguyễn Chí Thành" loading="lazy" decoding="async">
-      </div>
+  <!-- Sân khấu khoá tỉ lệ đúng bằng mockup 7 (4098×19770).
+       Ảnh và chữ đều đặt tuyệt đối theo phần trăm nên bố cục giữ nguyên tỉ lệ
+       ở mọi bề ngang. Chữ KHÔNG reflow — sửa nội dung dài ngắn khác đi thì
+       phải chỉnh cỡ chữ trong css/story.css cho khớp. -->
+  <div class="story">
+    <div class="story__stage">
 
-      <div class="intro__col">
-        <h2 class="intro__name">Nguyễn Minh Như Ngọc Trinh</h2>
-        <p class="intro__alias">Thứ Dữ</p>
-        <p class="intro__rank">(Thứ Nữ)</p>
-        <hr class="intro__rule">
-        <p class="intro__hi">Xin chào, mình là…</p>
-        <p class="intro__quote">“chắc quen chơi thôi.<br>tuần sau trap cho dở mệt”</p>
-        <hr class="intro__rule">
-        <p class="intro__job">Product Branding</p>
-        <p class="intro__quote intro__quote--sm">“người trên trời”</p>
-        <img class="intro__portrait" src="assets/photos/story-bride.webp"
-             srcset="assets/photos/story-bride.webp 640w, assets/photos/story-bride@1080.webp 1080w"
-             sizes="(min-width: 40rem) 17rem, 44vw" width="640" height="853"
-             alt="Nguyễn Minh Như Ngọc Trinh" loading="lazy" decoding="async">
-      </div>
+      <!-- Bốn dải cắt thẳng từ mockup, nền kem nướng sẵn, xếp khít nhau.
+           Dựng lại bằng: python3 tools/build-story-bands.py -->
+      <img class="story__band story__band--card"
+           src="assets/photos/story-card.webp"
+           srcset="assets/photos/story-card.webp 640w, assets/photos/story-card@1080.webp 1080w"
+           sizes="(min-width:34rem) 34rem, 100vw" width="640" height="464"
+           alt="Chí Thành và Ngọc Trinh" loading="lazy" decoding="async">
 
-      <img class="intro__seal" src="assets/seal-ourstory.webp" alt="" aria-hidden="true">
-    </div>
-  </section>
+      <img class="story__band story__band--disc"
+           src="assets/photos/story-disc.webp"
+           srcset="assets/photos/story-disc.webp 640w, assets/photos/story-disc@1080.webp 1080w"
+           sizes="(min-width:34rem) 34rem, 100vw" width="640" height="663"
+           alt="Bó hoa hồng đỏ và chiếc nhẫn trong hộp" loading="lazy" decoding="async">
 
+      <img class="story__band story__band--collage"
+           src="assets/photos/story-collage.webp"
+           srcset="assets/photos/story-collage.webp 640w, assets/photos/story-collage@1080.webp 1080w"
+           sizes="(min-width:34rem) 34rem, 100vw" width="640" height="1067"
+           alt="Những khoảnh khắc từ ngày hẹn hò đến lúc cầu hôn" loading="lazy" decoding="async">
 
-  <!-- timeline -->
-  <section class="tl">
-    <figure class="tl__disc" data-reveal>
-      <img src="assets/photos/story-nov2024.webp"
-           srcset="assets/photos/story-nov2024.webp 640w, assets/photos/story-nov2024@1080.webp 1080w"
-           sizes="100vw" width="640" height="660"
-           alt="Bó hoa hồng đỏ và món quà đầu tiên" loading="lazy" decoding="async">
-    </figure>
+      <img class="story__band story__band--close"
+           src="assets/photos/story-close.webp"
+           srcset="assets/photos/story-close.webp 640w, assets/photos/story-close@1080.webp 1080w"
+           sizes="(min-width:34rem) 34rem, 100vw" width="640" height="565"
+           alt="Chí Thành và Ngọc Trinh trong trang phục cưới" loading="lazy" decoding="async">
 
-    <div class="tl__rail">
-      <article class="tl__item" data-reveal>
-        <h3 class="tl__when">Nov 2024</h3>
-        <p class="tl__what">When Two Opposites Attract</p>
-      </article>
+      <!-- nửa trên khung thẻ; nửa dưới và hai góc dưới nằm trong ảnh story-card -->
+      <div class="story__card"></div>
 
-      <div class="tl__pair" data-reveal>
-        <img src="assets/photos/story-jan2025-a.webp"
-             srcset="assets/photos/story-jan2025-a.webp 640w, assets/photos/story-jan2025-a@1080.webp 1080w"
-             sizes="46vw" width="640" height="598"
-             alt="Chí Thành nắm tay Ngọc Trinh" loading="lazy" decoding="async">
-        <img src="assets/photos/story-jan2025-b.webp"
-             srcset="assets/photos/story-jan2025-b.webp 640w, assets/photos/story-jan2025-b@1080.webp 1080w"
-             sizes="46vw" width="640" height="615"
-             alt="Ngọc Trinh bên bờ biển" loading="lazy" decoding="async">
-      </div>
+      <!-- ─── thẻ giới thiệu · cột trái ─── -->
+      <h2 class="story__t story__t--l story__name">Nguyễn Chí Thành</h2>
+      <p class="story__t story__t--l story__alias">Gia Trưởng</p>
+      <p class="story__t story__t--l story__rank">(Trưởng Nam)</p>
+      <hr class="story__rule story__rule--a story__t--l">
+      <p class="story__t story__t--l story__hi">Xin chào, mình là…</p>
+      <p class="story__t story__t--l story__quote">“bạn này dễ thương quá.<br>chắc hong tên đâu”</p>
+      <hr class="story__rule story__rule--b story__t--l">
+      <p class="story__t story__t--l story__job">DevOps Engineer</p>
+      <p class="story__t story__t--l story__mini">“người trên núi”</p>
 
-      <article class="tl__item" data-reveal>
-        <h3 class="tl__when">Jan 2025</h3>
-        <p class="tl__what">Officially Started Dating</p>
-      </article>
+      <!-- ─── thẻ giới thiệu · cột phải ─── -->
+      <h2 class="story__t story__t--r story__name">Nguyễn Minh Như Ngọc Trinh</h2>
+      <p class="story__t story__t--r story__alias">Thứ Dữ</p>
+      <p class="story__t story__t--r story__rank">(Thứ Nữ)</p>
+      <hr class="story__rule story__rule--a story__t--r">
+      <p class="story__t story__t--r story__hi">Xin chào, mình là…</p>
+      <p class="story__t story__t--r story__quote">“chắc quen chơi thôi.<br>tuần sau trap cho dở mệt”</p>
+      <hr class="story__rule story__rule--b story__t--r">
+      <p class="story__t story__t--r story__job">Product Branding</p>
+      <p class="story__t story__t--r story__mini">“người trên trời”</p>
 
-      <figure class="tl__wide" data-reveal>
-        <img src="assets/photos/story-proposal.webp"
-             srcset="assets/photos/story-proposal.webp 640w, assets/photos/story-proposal@1080.webp 1080w, assets/photos/story-proposal@1600.webp 1600w"
-             sizes="100vw" width="640" height="307"
-             alt="Khoảnh khắc cầu hôn trên biển" loading="lazy" decoding="async">
-      </figure>
+      <!-- ─── dòng thời gian ─── -->
+      <h3 class="story__t story__t--c story__when story__when--nov">Nov 2024</h3>
+      <p  class="story__t story__t--c story__what story__what--nov">When Two Opposites Attract</p>
+      <span class="story__dot story__dot--1"></span>
+      <span class="story__line story__line--1"></span>
 
-      <article class="tl__item" data-reveal>
-        <h3 class="tl__when">May 2026</h3>
-        <p class="tl__what">She Said Yes</p>
-      </article>
+      <h3 class="story__t story__t--c story__when story__when--jan">Jan 2025</h3>
+      <p  class="story__t story__t--c story__what story__what--jan">Officially Started Dating</p>
+      <span class="story__dot story__dot--2"></span>
+      <span class="story__line story__line--2"></span>
 
-      <figure class="tl__disc tl__disc--inline" data-reveal>
-        <img src="assets/photos/story-may2026.webp"
-             srcset="assets/photos/story-may2026.webp 640w, assets/photos/story-may2026@1080.webp 1080w"
-             sizes="100vw" width="640" height="853"
-             alt="Hai chiếc nhẫn cưới trên nền hoa" loading="lazy" decoding="async">
-      </figure>
+      <h3 class="story__t story__t--c story__when story__when--may">May 2026</h3>
+      <p  class="story__t story__t--c story__what story__what--may">She Said Yes</p>
+      <span class="story__dot story__dot--3"></span>
+      <span class="story__line story__line--3"></span>
 
-      <article class="tl__item" data-reveal>
-        <h3 class="tl__when">March 2027</h3>
-        <p class="tl__what">And Now… We're Getting Married!</p>
-      </article>
-    </div>
-  </section>
+      <h3 class="story__t story__t--c story__when story__when--mar">March 2027</h3>
+      <p  class="story__t story__t--c story__what story__what--mar">And Now… We’re Getting Married!</p>
+      <span class="story__dot story__dot--4"></span>
+      <span class="story__line story__line--4"></span>
 
-
-  <!-- closing -->
-  <section class="close">
-    <div class="close__grid">
-      <div class="close__text" data-reveal>
-        <p class="close__sig">Thành &amp; Trinh</p>
-        <p>Looking back, we're so grateful we both had the courage to let go of the
+      <!-- ─── lời kết ─── -->
+      <p class="story__sig">Thành &amp; Trinh</p>
+      <div class="story__close">
+        <p>Looking back, we’re so grateful we both had the courage to let go of the
            past so we could become the best versions of ourselves for each other
            today. Ready for our greatest adventure yet!</p>
         <p>Thank you for being part of our story and celebrating this next chapter
            with us!</p>
       </div>
-      <img class="close__photo" src="assets/photos/story-final.webp"
-           srcset="assets/photos/story-final.webp 640w, assets/photos/story-final@1080.webp 1080w"
-           sizes="(min-width: 40rem) 20rem, 58vw" width="640" height="1001"
-           alt="Chí Thành và Ngọc Trinh trong trang phục cưới" loading="lazy" decoding="async"
-           data-reveal data-d="1">
-    </div>
-  </section>
 
-  <footer class="foot foot--cream">
-    <img class="foot__mono" src="assets/monogram-t.webp" alt="" width="244" height="296" data-reveal>
-  </footer>
+    </div>
+  </div>
 </main>
 
 
@@ -372,28 +345,38 @@
   <section class="heart stage">
     <img class="heart__mono" src="assets/monogram-t.webp" alt="" width="244" height="296">
 
-    <svg class="heart__svg" viewBox="0 0 400 380" role="img"
-         aria-label="Chí Thành và Ngọc Trinh — 07.03.27">
+    <!-- Hình tim tách riêng khỏi chữ cong: mockup vẽ trái tim rộng hơn cao
+         khoảng 22%, muốn giãn được thì phải preserveAspectRatio="none" — mà
+         như vậy sẽ kéo méo cả chữ nếu để chung một SVG. -->
+    <svg class="heart__svg" viewBox="0 0 400 380" preserveAspectRatio="none" aria-hidden="true">
+      <path class="heart__shape"
+            d="M200 372 C186 356 24 224 24 130 C24 62 74 20 130 20 C166 20 191 38 200 58 C209 38 234 20 270 20 C326 20 376 62 376 130 C376 224 214 356 200 372 Z"></path>
+    </svg>
+
+    <svg class="heart__arc" viewBox="0 0 400 380" role="img"
+         aria-label="we can't wait to see you">
       <defs>
         <path id="arcWait" d="M150 168 Q 210 235 232 336" fill="none"></path>
       </defs>
-      <path class="heart__shape"
-            d="M200 372 C186 356 24 224 24 130 C24 62 74 20 130 20 C166 20 191 38 200 58 C209 38 234 20 270 20 C326 20 376 62 376 130 C376 224 214 356 200 372 Z"></path>
       <text class="heart__curve">
         <textPath href="#arcWait" startOffset="4%">we can't wait to see you</textPath>
       </text>
     </svg>
 
     <p class="heart__names">
-      <span>Chí Thành</span><span class="heart__amp">&amp;</span><span>Ngọc Trinh</span>
+      <span>Chí Thành <i class="heart__amp">&amp;</i></span><span>Ngọc Trinh</span>
     </p>
 
     <p class="heart__date">
       <span>07</span><i aria-hidden="true"></i><span>03</span><i aria-hidden="true"></i><span>27</span>
     </p>
 
-    <img class="heart__couple" src="assets/couple-cutout.webp" alt="Chí Thành và Ngọc Trinh"
-         width="1000" height="1262">
+    <!-- tách nền từ Wedding/SOURCE HÌNH/IMG_4470.jpg, viền trắng kiểu sticker.
+         Dựng lại bằng: python3 tools/build-couple.py -->
+    <img class="heart__couple" src="assets/photos/detail-couple.webp"
+         srcset="assets/photos/detail-couple.webp 640w, assets/photos/detail-couple@1080.webp 1080w"
+         sizes="55vw" width="640" height="757"
+         alt="Chí Thành và Ngọc Trinh">
   </section>
 
   <!-- schedule -->

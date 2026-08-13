@@ -1,229 +1,232 @@
 /* ═══════════════════════════════════════════════════════════════════════
    SCREEN · OUR STORY  (mockup 7)
-   Nền kem, nhấn rượu vang, chữ kiểu editorial.
+
+   Màn này không xếp khối theo luồng như hai màn kia. Mockup là một collage
+   phân lớp: người tách nền tràn ra mép, chồng lên nhau, chữ đặt đè lên ảnh.
+   Muốn giống 100% thì tỉ lệ phải bất biến, nên cả màn là MỘT sân khấu khoá
+   aspect-ratio đúng bằng mockup; ảnh lẫn chữ đều đặt tuyệt đối, cỡ chữ tính
+   theo bề ngang sân khấu.
+
+   Hệ quả cần nhớ: chữ ở đây KHÔNG reflow, nó phóng to thu nhỏ theo khung.
+   Sửa nội dung dài ngắn khác đi là vỡ bố cục — phải chỉnh --fs cho khớp.
+
+   Mọi con số vị trí/cỡ chữ dưới đây là TOẠ ĐỘ ĐIỂM ẢNH TRÊN MOCKUP GỐC
+   (4098×19770), không phải phần trăm. calc() quy đổi giúp, nên khi cần đo lại
+   trên file mockup thì con số trong CSS đối chiếu thẳng được, không phải nhân
+   chia tay. Thanh nav nằm ngoài sân khấu nên gốc toạ độ dọc là --my0.
    ═══════════════════════════════════════════════════════════════════════ */
 
 .screen--story{
-  background:var(--cream-100);
+  background:var(--cream-mock);
   color:var(--ink);
+}
+
+.story{
+  width:min(100%, var(--wrap));
+  margin-inline:auto;
+  container-type:inline-size;
+}
+
+.story__stage{
+  --mw :4098;    /* bề ngang mockup */
+  --my0:224;     /* mép trên sân khấu, tính trong toạ độ mockup (ngay dưới nav) */
+  --mh :19546;   /* chiều cao sân khấu = 19770 - 224 */
+
+  position:relative;
+  aspect-ratio:var(--mw) / var(--mh);
+}
+
+/* quy đổi toạ độ mockup → vị trí trong sân khấu */
+.story__stage > *{
+  --to-x:calc(var(--x) / var(--mw) * 100%);
+  --to-y:calc((var(--y) - var(--my0)) / var(--mh) * 100%);
 }
 
 
 /* ═══════════════════════════════════════════════════════════════════════
-   Thẻ giới thiệu hai người
+   Dải ảnh
+   Bốn dải cắt từ mockup, nền kem nướng sẵn, xếp khít nhau. Vì là điểm ảnh
+   gốc nên không cần clip-path cho vòng cung ảnh hoa hồng, cũng không cần
+   tách nền cho người.
    ═══════════════════════════════════════════════════════════════════════ */
-.intro{ padding:.5rem var(--pad) 0 }
-
-.intro__card{
-  position:relative;
-  width:min(100%, 40rem);
-  margin-inline:auto;
-  padding:clamp(1.25rem,5vw,2.25rem) clamp(.85rem,3.5vw,2rem)
-          clamp(4rem,16vw,6rem);
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:clamp(.6rem,3vw,2rem);
-  border:1px solid rgba(36,26,18,.55);
-  border-radius:clamp(1rem,4vw,1.75rem);
-}
-
-.intro__col{
-  display:grid;
-  align-content:start;
-  justify-items:center;
-  gap:.15rem;
-  min-width:0;
-  text-align:center;
-}
-
-.intro__name{
-  margin:0;
-  font-family:var(--f-display);
-  font-weight:400;
-  font-size:clamp(.95rem,4.1vw,1.5rem);
-  line-height:1.2;
-  letter-spacing:-.01em;
-}
-.intro__alias{
-  margin:.1em 0 0;
-  font-family:var(--f-display);
-  font-style:italic;
-  font-size:clamp(.9rem,3.8vw,1.35rem);
-}
-.intro__rank{
-  margin:.1em 0 0;
-  font-family:var(--f-ui);
-  font-size:var(--t-xs);
-  font-weight:500;
-}
-.intro__rule{
-  width:52%;
-  height:0;
-  margin:.85rem 0;
-  border:0;
-  border-top:1px solid rgba(36,26,18,.35);
-}
-.intro__hi{
-  margin:0;
-  font-family:var(--f-body);
-  font-size:var(--t-xs);
-  letter-spacing:.01em;
-}
-.intro__quote{
-  margin:.25em 0 0;
-  font-family:var(--f-body);
-  font-size:clamp(.92rem,3.7vw,1.2rem);
-  line-height:1.3;
-}
-.intro__quote--sm{ font-size:var(--t-xs) }
-.intro__job{
-  margin:0;
-  font-family:var(--f-ui);
-  font-size:var(--t-xs);
-  font-weight:500;
-}
-
-/* Chân dung tràn xuống đáy thẻ, đáy ảnh đã được làm mờ dần khi dựng ảnh
-   nên hoà thẳng vào nền kem thay vì cắt cứng. */
-.intro__portrait{
+.story__band{
+  position:absolute;
+  left:0;
+  top:var(--to-y);
   width:100%;
   height:auto;
-  margin-top:auto;
-  padding-top:clamp(.75rem,3vw,1.5rem);
+  display:block;
+}
+.story__band--card   { --y:2100 }
+.story__band--disc   { --y:5072 }
+.story__band--collage{ --y:9320 }
+.story__band--close  { --y:16150 }
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Khung thẻ giới thiệu
+   Chỉ nửa trên là CSS; viền dưới và hai góc dưới nằm sẵn trong ảnh
+   story-card, nên khung này cố tình không có cạnh dưới.
+   ═══════════════════════════════════════════════════════════════════════ */
+.story__card{
+  --y:308;
+  position:absolute;
+  left:calc(146 / var(--mw) * 100%);
+  right:calc(148 / var(--mw) * 100%);
+  top:var(--to-y);
+  bottom:calc((19770 - 2100) / var(--mh) * 100%);
+  border:1px solid rgba(36,26,18,.55);
+  border-bottom:0;
+  border-radius:calc(64 / var(--mw) * 100cqw) calc(64 / var(--mw) * 100cqw) 0 0;
 }
 
-.intro__seal{
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Chữ
+   Mỗi khối neo bằng TÂM hộp chữ đo trên mockup, nên sai lệch phông chữ giãn
+   đều hai phía thay vì dồn hết về một đầu.
+   ═══════════════════════════════════════════════════════════════════════ */
+.story__t{
   position:absolute;
-  left:50%;
-  bottom:clamp(-1.75rem,-6vw,-1rem);
-  z-index:2;
-  width:clamp(5rem,22vw,7.5rem);
-  transform:translateX(-50%);
+  left:var(--to-x);
+  top:var(--to-y);
+  margin:0;
+  transform:translate(-50%,-50%);
+  font-size:calc(var(--fs) / var(--mw) * 100cqw);
+  text-align:center;
+  white-space:nowrap;
+  line-height:1.2;
 }
+
+/* hai cột của thẻ không đối xứng tuyệt đối quanh 50% — đúng như bản thiết kế */
+.story__t--l{ --x:1073 }
+.story__t--r{ --x:2903 }
+.story__t--c{ --x:2081 }
+
+/* --fs đã hiệu chỉnh để BỀ NGANG vệt chữ khớp mockup. Phông của mockup là
+   serif condensed không có sẵn (xem ghi chú cuối file), hẹp hơn Playfair
+   khoảng một phần ba, nên khớp bề ngang là cách sát nhất mà vẫn không để hai
+   cột tên đè vào nhau. Đổi lại chiều cao chữ thấp hơn bản thiết kế đôi chút. */
+.story__name { --fs:111; --y:570;  font-family:var(--f-display); font-weight:400 }
+.story__alias{ --fs:119; --y:765;  font-family:var(--f-display); font-style:italic }
+.story__rank { --fs:102; --y:959;  font-family:var(--f-ui); font-weight:500 }
+.story__hi   { --fs:107; --y:1276; font-family:var(--f-body) }
+.story__quote{ --fs:109; --y:1505; --lh:132; font-family:var(--f-body) }
+.story__job  { --fs:86;  --y:1890; font-family:var(--f-ui); font-weight:500 }
+.story__mini { --fs:89;  --y:2010; font-family:var(--f-display) }
+
+/* khối nhiều dòng ghim nhịp dòng theo đúng pixel mockup */
+.story__quote,
+.story__close{ line-height:calc(var(--lh) / var(--mw) * 100cqw) }
+
+/* gạch ngang trong thẻ */
+.story__rule{
+  position:absolute;
+  left:var(--to-x);
+  top:var(--to-y);
+  width:calc(804 / var(--mw) * 100%);
+  height:0;
+  margin:0;
+  border:0;
+  border-top:1px solid rgba(36,26,18,.35);
+  transform:translate(-50%,-50%);
+}
+.story__rule--a{ --y:1102 }
+.story__rule--b{ --y:1754 }
 
 
 /* ═══════════════════════════════════════════════════════════════════════
    Dòng thời gian
    ═══════════════════════════════════════════════════════════════════════ */
-.tl{ padding:clamp(2.5rem,9vw,4rem) 0 0 }
+.story__when{ --fs:207; font-family:var(--f-display); font-weight:500; color:var(--wine-700) }
+.story__what{ --fs:104; font-family:var(--f-display); font-style:italic }
 
-/* ảnh cắt tròn, tràn hết bề ngang */
-.tl__disc{
-  margin:0;
-  overflow:hidden;
-  overflow:clip;
-}
-.tl__disc img{
-  width:100%;
-  height:auto;
-  /* vòng cung ở đáy, giống khung tròn trong mockup */
-  clip-path:ellipse(72% 100% at 50% 0%);
-}
-.tl__disc--inline{ margin-block:clamp(1rem,4vw,2rem) }
-.tl__disc--inline img{ clip-path:ellipse(78% 88% at 50% 45%) }
+.story__when--nov{ --y:8128  }
+.story__what--nov{ --y:8388  }
+.story__when--jan{ --y:9214  }
+.story__what--jan{ --y:9481  }
+.story__when--may{ --y:10298 }
+.story__what--may{ --y:10562 }
+.story__when--mar{ --y:16002 }
+.story__what--mar{ --y:16264 }
 
-.tl__rail{
-  position:relative;
-  width:min(100% - var(--pad) * 2, var(--wrap));
-  margin-inline:auto;
-  padding-block:clamp(1.75rem,7vw,3rem);
-}
-/* thanh dọc chạy suốt dòng thời gian */
-.tl__rail::before{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:0;
-  bottom:0;
-  width:1px;
-  background:rgba(92,26,26,.4);
-}
-
-.tl__item{
-  position:relative;
-  z-index:1;
-  padding-block:clamp(1.5rem,6vw,2.5rem);
-  text-align:center;
-}
 /* chấm mốc */
-.tl__item::before{
-  content:"";
+.story__dot{
+  --x:2081;
   position:absolute;
-  left:50%;
-  top:0;
-  width:.75rem;
-  height:.75rem;
+  left:var(--to-x);
+  top:var(--to-y);
+  width:calc(78 / var(--mw) * 100%);
+  aspect-ratio:1;
   transform:translate(-50%,-50%);
   border-radius:50%;
   background:var(--wine-700);
 }
-.tl__when{
-  margin:0;
-  font-family:var(--f-display);
-  font-weight:500;
-  font-size:clamp(1.5rem,7.5vw,2.5rem);
-  line-height:1.1;
-  color:var(--wine-700);
-  background:var(--cream-100);
-}
-.tl__what{
-  margin:.35em 0 0;
-  font-family:var(--f-display);
-  font-style:italic;
-  font-size:var(--t-sm);
-  background:var(--cream-100);
-}
+.story__dot--1{ --y:8570  }
+.story__dot--2{ --y:9659  }
+.story__dot--3{ --y:10734 }
+.story__dot--4{ --y:16444 }
 
-/* cặp ảnh hai bên thanh dọc */
-.tl__pair{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  align-items:end;
-  gap:clamp(.5rem,3vw,1.5rem);
+/* vạch nối chạy từ đáy chấm xuống mốc kế tiếp */
+.story__line{
+  --x:2081;
+  position:absolute;
+  left:var(--to-x);
+  top:var(--to-y);
+  width:1px;
+  height:calc(var(--len) / var(--mh) * 100%);
+  transform:translateX(-50%);
+  background:rgba(92,26,26,.55);
 }
-.tl__pair img{ width:100%; height:auto }
-
-.tl__wide{
-  margin:clamp(1rem,4vw,2rem) 0 0;
-}
-.tl__wide img{
-  width:100%;
-  height:auto;
-  border-radius:clamp(.5rem,2vw,1rem);
-}
+.story__line--1{ --y:8612;  --len:490 }
+.story__line--2{ --y:9700;  --len:430 }
+.story__line--3{ --y:10776; --len:430 }
+/* vạch cuối dài hơn hẳn, chạy từ mốc March 2027 xuống tận khối lời kết */
+.story__line--4{ --y:16486; --len:398 }
 
 
 /* ═══════════════════════════════════════════════════════════════════════
    Lời kết
    ═══════════════════════════════════════════════════════════════════════ */
-.close{
-  padding:clamp(2rem,8vw,3.5rem) 0 0;
-}
-.close__grid{
-  width:min(100% - var(--pad) * 2, var(--wrap));
-  margin-inline:auto;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  align-items:end;
-  gap:clamp(.5rem,3vw,1.5rem);
-}
-.close__sig{
-  margin:0 0 .35em;
+.story__sig{
+  --x:276; --y:17069; --fs:238;
+  position:absolute;
+  left:var(--to-x);
+  top:var(--to-y);
+  margin:0;
+  transform:translateY(-50%);
   font-family:var(--f-script);
-  font-size:clamp(1.6rem,8vw,2.6rem);
+  font-size:calc(var(--fs) / var(--mw) * 100cqw);
   line-height:1.1;
   color:var(--sage-dark);
+  white-space:nowrap;
 }
-.close__text p{
-  margin:0 0 .7em;
+
+.story__close{
+  --x:180; --y:17324; --fs:125; --lh:178;
+  position:absolute;
+  left:var(--to-x);
+  top:var(--to-y);
+  width:calc(1510 / var(--mw) * 100%);
+  margin:0;
   font-family:var(--f-body);
-  font-size:clamp(.9rem,3.6vw,1.1rem);
-  line-height:1.45;
+  font-size:calc(var(--fs) / var(--mw) * 100cqw);
   text-align:justify;
 }
-.close__text p:last-child{ margin-bottom:0 }
-.close__photo{
-  width:100%;
-  height:auto;
-  align-self:end;
-}
+/* Mockup không chừa khoảng giữa hai đoạn — nhịp dòng chạy đều 178px suốt cả
+   khối, câu "Thank you..." nối thẳng sau "greatest adventure yet!". */
+.story__close p{ margin:0 }
+
+
+/* ═══════════════════════════════════════════════════════════════════════
+   Ghi chú phông chữ
+
+   Mockup dùng hai phông không có trong bộ site nạp:
+     · tên người / alias — serif condensed tương phản rất cao
+     · Nov 2024, Jan 2025… — serif chân bằng tương phản thấp
+   Không nhận dạng chắc chắn được từ ảnh raster, nhiều khả năng là phông
+   Adobe Fonts hoặc phông trả tiền của designer. Cách xử lý đã chọn: giữ chữ
+   thật (bôi chọn / dịch / trình đọc màn hình vẫn dùng được) và hiệu chỉnh
+   --fs cho khớp bề ngang từng khối. Nếu sau này có file phông gốc, thả vào
+   assets/fonts/ rồi khai @font-face là màn này khớp tuyệt đối.
+   ═══════════════════════════════════════════════════════════════════════ */

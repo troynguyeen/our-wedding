@@ -105,6 +105,32 @@ async function main(){
       }
     });
 
+    // Máy ghi Web Audio, cài trước khi trang chạy script. Nằm hẳn bên phía
+    // phép thử: js/sfx.js không có móc nào dành riêng cho kiểm thử, ở đây chỉ
+    // bọc API sẵn có của trình duyệt để nhìn xem module thật đã làm gì.
+    await b.send('Page.addScriptToEvaluateOnNewDocument', { source: `
+      (() => {
+        const log = { started: 0, stopped: 0, live: 0, loop: null, ramps: [] };
+        window.__sfx = log;
+        const src = AudioBufferSourceNode.prototype;
+        const start = src.start, stop = src.stop;
+        src.start = function(...a){
+          if (!this.__seen){ this.__seen = true; log.started++; log.live++; log.loop = this.loop; }
+          return start.apply(this, a);
+        };
+        src.stop = function(...a){
+          if (this.__seen && !this.__done){ this.__done = true; log.stopped++; log.live--; }
+          return stop.apply(this, a);
+        };
+        const ramp = AudioParam.prototype.linearRampToValueAtTime;
+        AudioParam.prototype.linearRampToValueAtTime = function(v, t){
+          log.ramps.push(v);
+          return ramp.call(this, v, t);
+        };
+      })()
+    ` }, S);
+    const sfx = () => evalJs(`JSON.stringify(window.__sfx)`).then(JSON.parse);
+
     await b.send('Page.navigate', { url: `${ORIGIN}/index.html` }, S);
     await sleep(2500);
 
@@ -145,6 +171,42 @@ async function main(){
       }, S);
 
       await dispatch('mousePressed', r.x + 8, r.y + 8);
+
+      // --- hiệu ứng tiếng cào giấy ---
+      // Ngón tay đặt xuống mà chưa kéo thì chưa phải là đang cào.
+      await sleep(300);
+      const s0 = await sfx();
+      check('chạm xuống nhưng chưa di thì chưa có tiếng cào',
+        s0.started === 0, `started=${s0.started}`);
+
+      // vài nét ngắn: đủ để bật tiếng, chưa đủ phủ để lật thiệp
+      const swipe = async (y, from, to, steps = 6) => {
+        for (let k = 0; k <= steps; k++){
+          const t = from + (to - from) * (k / steps);
+          await dispatch('mouseMoved', r.x + 4 + t * (r.w - 8), y);
+        }
+      };
+      await swipe(r.y + r.h * 0.12, 0, 1);
+      const s1 = await sfx();
+      check('di ngón tay thì tiếng cào chạy',
+        s1.started >= 1 && s1.live === 1 && s1.loop === true,
+        `started=${s1.started} live=${s1.live} loop=${s1.loop}`);
+      check('tiếng cào vào bằng fade chứ không bật thẳng',
+        s1.ramps.some(v => v > 0), `ramps=${JSON.stringify(s1.ramps)}`);
+
+      // vẫn giữ nút chuột nhưng ngừng di — tiếng phải tự tắt
+      await sleep(500);
+      const s2 = await sfx();
+      check('ngừng tay thì tiếng cào tắt',
+        s2.live === 0 && s2.ramps.at(-1) === 0,
+        `live=${s2.live} ramp cuối=${s2.ramps.at(-1)}`);
+
+      await swipe(r.y + r.h * 0.22, 1, 0);
+      const s3 = await sfx();
+      check('cào tiếp thì tiếng cào vào lại',
+        s3.started > s2.started && s3.live === 1,
+        `started=${s2.started}→${s3.started} live=${s3.live}`);
+
       const rows = 14;
       for (let i = 0; i < rows; i++){
         const y = r.y + (r.h * (i + 0.5)) / rows;
@@ -163,6 +225,10 @@ async function main(){
       check('cào xong là nhạc nền bật lên',
         await evalJs(`!document.getElementById('bgm').paused`),
         await evalJs(nhac));
+
+      const s4 = await sfx();
+      check('thiệp lật mở thì tiếng cào đã tắt hẳn',
+        s4.live === 0, `live=${s4.live} started=${s4.started} stopped=${s4.stopped}`);
     }
 
     // chờ chuỗi closing → open → done chạy hết

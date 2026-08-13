@@ -1,6 +1,7 @@
 /* Màn mở thiệp: sealed → scratch → revealed → closing → open → done. */
 
-import { makeScratch } from './scratch.js';
+import { makeScratch }    from './scratch.js';
+import { makeScratchSfx } from './sfx.js';
 
 const SKIP_AFTER   = 4000;  // hiện nút "Bỏ qua" nếu khách chưa cào
 const HOLD_REVEAL  = 1500;  // giữ thiệp đã cào để khách kịp đọc
@@ -18,6 +19,7 @@ export function initOnboarding({ reduceMotion, onFinish, onReveal }){
   const wait = (ms, fn) => timers.push(setTimeout(fn, ms));
 
   let destroyScratch = null;
+  let sfx = null;
 
   function setState(state){
     root.dataset.state = state;
@@ -44,6 +46,8 @@ export function initOnboarding({ reduceMotion, onFinish, onReveal }){
   function reveal(){
     destroyScratch?.();
     destroyScratch = null;
+    // nút "Bỏ qua" cũng vào đây mà không đi qua scratch.js, nên phải tự tắt
+    sfx?.stop();
     // Nhạc bắt đầu ngay khi cào xong. Gọi được vì trình duyệt vẫn giữ quyền
     // phát sau cú chạm mở thiệp trước đó (sticky activation), và lúc này
     // khách đang giữ tay trên màn hình để cào.
@@ -61,9 +65,14 @@ export function initOnboarding({ reduceMotion, onFinish, onReveal }){
     // rò listener của phiên cũ, nên chỉ nhận cú chạm từ trạng thái niêm phong
     if (root.dataset.state !== 'sealed') return;
     setState('scratch');
+    // dựng ngay để kịp tải file tiếng trước nét cào đầu tiên
+    sfx = makeScratchSfx();
     // canvas chỉ có kích thước thật sau khi thiệp đã trồi lên
     requestAnimationFrame(() => {
-      destroyScratch = makeScratch(foil, reveal);
+      destroyScratch = makeScratch(foil, {
+        onReveal: reveal,
+        onActive: on => (on ? sfx.start() : sfx.stop()),
+      });
     });
     wait(SKIP_AFTER, () => {
       if (root.dataset.state === 'scratch') skip.classList.add('is-shown');
@@ -77,5 +86,6 @@ export function initOnboarding({ reduceMotion, onFinish, onReveal }){
   return function destroy(){
     timers.forEach(clearTimeout);
     destroyScratch?.();
+    sfx?.destroy();
   };
 }
