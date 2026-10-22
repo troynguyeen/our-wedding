@@ -341,162 +341,142 @@
     </button>
   </nav>
 
-  <!-- heart hero -->
-  <section class="heart stage">
-    <img class="heart__mono" src="assets/monogram-t.webp" alt="" width="244" height="296">
-
-    <!-- Hình tim tách riêng khỏi chữ cong: mockup vẽ trái tim rộng hơn cao
-         khoảng 22%, muốn giãn được thì phải preserveAspectRatio="none" — mà
-         như vậy sẽ kéo méo cả chữ nếu để chung một SVG. -->
-    <svg class="heart__svg" viewBox="0 0 400 380" preserveAspectRatio="none" aria-hidden="true">
-      <path class="heart__shape"
-            d="M200 372 C186 356 24 224 24 130 C24 62 74 20 130 20 C166 20 191 38 200 58 C209 38 234 20 270 20 C326 20 376 62 376 130 C376 224 214 356 200 372 Z"></path>
-    </svg>
-
-    <svg class="heart__arc" viewBox="0 0 400 380" role="img"
-         aria-label="we can't wait to see you">
-      <defs>
-        <path id="arcWait" d="M150 168 Q 210 235 232 336" fill="none"></path>
-      </defs>
-      <text class="heart__curve">
-        <textPath href="#arcWait" startOffset="4%">we can't wait to see you</textPath>
-      </text>
-    </svg>
-
-    <p class="heart__names">
-      <span>Chí Thành <i class="heart__amp">&amp;</i></span><span>Ngọc Trinh</span>
-    </p>
-
-    <p class="heart__date">
-      <span>07</span><i aria-hidden="true"></i><span>03</span><i aria-hidden="true"></i><span>27</span>
-    </p>
-
-    <!-- tách nền từ Wedding/SOURCE HÌNH/IMG_4470.jpg, viền trắng kiểu sticker.
-         Dựng lại bằng: python3 tools/build-couple.py -->
-    <img class="heart__couple" src="assets/photos/detail-couple.webp"
-         srcset="assets/photos/detail-couple.webp 640w, assets/photos/detail-couple@1080.webp 1080w"
-         sizes="55vw" width="640" height="757"
-         alt="Chí Thành và Ngọc Trinh">
+  <!-- heart hero — cắt thẳng từ mockup 8 bằng tools/build-detail.py: trái tim,
+       tên, ngày, dòng chữ cong, đôi uyên ương, dải rách và máy in là MỘT ảnh,
+       nên chữ không bao giờ lệch khỏi trái tim ở bất kỳ bề ngang nào. -->
+  <section class="heart">
+    <img class="heart__art" src="assets/photos/detail-heart.webp"
+         srcset="assets/photos/detail-heart.webp 640w, assets/photos/detail-heart@1080.webp 1080w, assets/photos/detail-heart@1600.webp 1600w"
+         sizes="min(100vw, 34rem)" width="640" height="641"
+         alt="Chí Thành &amp; Ngọc Trinh — 07 · 03 · 27 — we can't wait to see you!">
   </section>
 
   <!-- schedule -->
-  <section class="sched stage">
-    <div class="sched__deco" aria-hidden="true">
-      <div class="sched__printer"></div>
-      <div class="sched__passBox">
-        <img class="sched__pass" src="assets/boarding-pass.webp" alt="">
-      </div>
-      <div class="sched__strip">
-        <img src="assets/photos/detail-strip-1.webp" alt="" width="640" height="829" loading="lazy">
-        <img src="assets/photos/detail-strip-2.webp" alt="" width="640" height="793" loading="lazy">
-        <img src="assets/photos/detail-strip-3.webp" alt="" width="640" height="820" loading="lazy">
-        <img src="assets/photos/detail-strip-4.webp" alt="" width="640" height="869" loading="lazy">
-      </div>
-    </div>
-
-    <ol class="sched__list">
-      <li class="sched__item" data-reveal>
-        <p class="sched__time">17:30</p>
-        <h3 class="sched__name">Welcome &amp; Gathering</h3>
-        <p class="sched__note">Claris Palace Hall<br>22 Hiệp Bình, Thủ Đức, TP.HCM</p>
-      </li>
-      <li class="sched__item" data-reveal>
-        <p class="sched__time">18:00</p>
-        <h3 class="sched__name">Ceremony Begins</h3>
-        <p class="sched__note">Join us as we step into our most cherished moments</p>
-      </li>
-      <li class="sched__item" data-reveal>
-        <p class="sched__time">18:30</p>
-        <h3 class="sched__name">Dinner Begins</h3>
-        <p class="sched__note">Savor every bite, fill your glasses, and let's toast to joy and love together</p>
-      </li>
-      <li class="sched__item" data-reveal>
-        <p class="sched__time">19:00</p>
-        <h3 class="sched__name">Icebreakers &amp; Fun</h3>
-        <p class="sched__note">Join our fun mini-games — you just might be the lucky one to take home a special gift from us!</p>
-      </li>
-      <li class="sched__item" data-reveal>
-        <p class="sched__time">20:30</p>
-        <h3 class="sched__name">Bouquet Toss &amp; Wrap-Up</h3>
-        <p class="sched__note">Catch the bouquet for a touch of luck, and join us for a warm send-off</p>
-      </li>
-    </ol>
-
-    <p class="sched__thanks" data-reveal>Thank you for being a precious part of our happiest chapter!</p>
-  </section>
-
-  <!-- map -->
-  <section class="map stage">
-    <img class="map__dove map__dove--a" src="assets/dove-b.webp" alt="" aria-hidden="true" data-par="-.14">
-    <img class="map__dove map__dove--b" src="assets/dove-a.webp" alt="" aria-hidden="true" data-par="-.2">
-
-    <div class="wrap">
-      <div class="map__frame" data-reveal>
-        <iframe class="map__embed" title="Bản đồ tới Claris Palace"
-                src="https://www.google.com/maps?q=Claris+Palace%2C+22+Hi%E1%BB%87p+B%C3%ACnh%2C+Th%E1%BB%A7+%C4%90%E1%BB%A9c%2C+H%E1%BB%93+Ch%C3%AD+Minh&z=16&hl=vi&output=embed"
-                loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
-        <img class="map__lace" src="assets/map-frame.webp" alt="" aria-hidden="true">
+  <section class="sched">
+    <div class="sched__stage">
+      <!-- vé + kẹp + dải ảnh, đặt đúng toạ độ mockup; máy in nằm sẵn ở chân ảnh
+           khối tim nên mép trên khối này chính là khe máy in -->
+      <div class="sched__deco" aria-hidden="true">
+        <div class="sched__roll">
+          <img class="sched__pass" src="assets/photos/detail-pass.webp"
+               srcset="assets/photos/detail-pass.webp 420w, assets/photos/detail-pass@840.webp 840w"
+               sizes="calc(min(100vw, 34rem) * .305)" width="420" height="739" alt="">
+          <img class="sched__strip" src="assets/photos/detail-strip.webp"
+               srcset="assets/photos/detail-strip.webp 240w, assets/photos/detail-strip@480.webp 480w"
+               sizes="calc(min(100vw, 34rem) * .173)" width="240" height="1210" alt="" loading="lazy">
+        </div>
       </div>
 
-      <p class="map__addr" data-reveal data-d="1">
-        Trung tâm Hội nghị &amp; Tiệc cưới Claris Palace<br>
-        22 Hiệp Bình, Thủ Đức, TP.HCM
-      </p>
+      <ol class="sched__list">
+        <li class="sched__item" data-reveal>
+          <p class="sched__time">17:30</p>
+          <h3 class="sched__name">Welcome &amp; Gathering</h3>
+          <p class="sched__note">Claris Palace Hall<br>22 Hiệp Bình, Thủ Đức, TP.HCM</p>
+        </li>
+        <li class="sched__item" data-reveal>
+          <p class="sched__time">18:00</p>
+          <h3 class="sched__name">Ceremony Begins</h3>
+          <p class="sched__note">Join us as we step into our most cherished moments</p>
+        </li>
+        <li class="sched__item" data-reveal>
+          <p class="sched__time">18:30</p>
+          <h3 class="sched__name">Dinner Begins</h3>
+          <p class="sched__note">Savor every bite, fill your glasses, and let's toast to joy and love together</p>
+        </li>
+        <li class="sched__item" data-reveal>
+          <p class="sched__time">19:00</p>
+          <h3 class="sched__name">Icebreakers &amp; Fun</h3>
+          <p class="sched__note">Join our fun mini-games — you just might be the lucky one to take home a special gift from us!</p>
+        </li>
+        <li class="sched__item" data-reveal>
+          <p class="sched__time">20:30</p>
+          <h3 class="sched__name">Bouquet Toss &amp; Wrap-Up</h3>
+          <p class="sched__note">Catch the bouquet for a touch of luck, and join us for a warm send-off</p>
+        </li>
+      </ol>
 
-      <a class="map__btn" data-reveal data-d="2" target="_blank" rel="noopener"
-         href="https://www.google.com/maps/dir/?api=1&destination=Claris+Palace%2C+22+Hi%E1%BB%87p+B%C3%ACnh%2C+Th%E1%BB%A7+%C4%90%E1%BB%A9c%2C+H%E1%BB%93+Ch%C3%AD+Minh">
-        Chỉ đường
-      </a>
+      <p class="sched__thanks" data-reveal>Thank you for being a precious part of our happiest chapter!</p>
     </div>
   </section>
 
-  <!-- rsvp -->
-  <section class="rsvp stage">
-    <div class="wrap">
-      <div class="rsvp__lace" data-reveal>
-        <form class="rsvp__form" id="rsvpForm" novalidate>
-          <h2 class="rsvp__title">Xác nhận tham dự</h2>
+  <!-- một tấm nhung liền cho cả bản đồ, RSVP và chân trang — mỗi khối tự
+       có nền riêng thì lộ đường ráp giữa các khối -->
+  <div class="velvet">
+    <!-- map — khung ren và hai bồ câu đặt đúng toạ độ mockup 8: con trên trái
+         quay đầu sang phải, con dưới phải quay đầu sang trái, cùng hướng vào bản đồ -->
+    <section class="map">
+      <div class="map__stage">
+        <div class="map__frame" data-reveal>
+          <iframe class="map__embed" title="Bản đồ tới Claris Palace"
+                  src="https://www.google.com/maps?q=Claris+Palace%2C+22+Hi%E1%BB%87p+B%C3%ACnh%2C+Th%E1%BB%A7+%C4%90%E1%BB%A9c%2C+H%E1%BB%93+Ch%C3%AD+Minh&z=16&hl=vi&output=embed"
+                  loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+          <img class="map__lace" src="assets/map-frame.webp" alt="" aria-hidden="true">
+        </div>
+        <img class="map__dove map__dove--a" src="assets/dove-b.webp" alt="" aria-hidden="true" data-par=".06">
+        <img class="map__dove map__dove--b" src="assets/dove-a.webp" alt="" aria-hidden="true" data-par=".09">
+      </div>
 
-          <label class="fld">
-            <span class="fld__lb">Họ và tên</span>
-            <input type="text" name="name" required placeholder="Nhập tên của bạn" autocomplete="name">
-          </label>
+      <div class="wrap">
+        <p class="map__addr" data-reveal data-d="1">
+          Trung tâm Hội nghị &amp; Tiệc cưới Claris Palace<br>
+          22 Hiệp Bình, Thủ Đức, TP.HCM
+        </p>
 
-          <fieldset class="fld">
-            <legend class="fld__lb">Bạn sẽ tham dự chứ?</legend>
-            <label class="radio">
-              <input type="radio" name="attend" value="yes" checked>
-              <i aria-hidden="true"></i><span>Có, tôi sẽ tham dự</span>
+        <a class="map__btn" data-reveal data-d="2" target="_blank" rel="noopener"
+           href="https://www.google.com/maps/dir/?api=1&destination=Claris+Palace%2C+22+Hi%E1%BB%87p+B%C3%ACnh%2C+Th%E1%BB%A7+%C4%90%E1%BB%A9c%2C+H%E1%BB%93+Ch%C3%AD+Minh">
+          Chỉ đường
+        </a>
+      </div>
+    </section>
+
+    <!-- rsvp -->
+    <section class="rsvp stage">
+      <div class="wrap">
+        <div class="rsvp__lace" data-reveal>
+          <form class="rsvp__form" id="rsvpForm" novalidate>
+            <h2 class="rsvp__title">Xác nhận tham dự</h2>
+
+            <label class="fld">
+              <span class="fld__lb">Họ và tên</span>
+              <input type="text" name="name" required placeholder="Nhập tên của bạn" autocomplete="name">
             </label>
-            <label class="radio">
-              <input type="radio" name="attend" value="no">
-              <i aria-hidden="true"></i><span>Tôi bận, rất tiếc không thể tham dự</span>
+
+            <fieldset class="fld">
+              <legend class="fld__lb">Bạn sẽ tham dự chứ?</legend>
+              <label class="radio">
+                <input type="radio" name="attend" value="yes" checked>
+                <i aria-hidden="true"></i><span>Có, tôi sẽ tham dự</span>
+              </label>
+              <label class="radio">
+                <input type="radio" name="attend" value="no">
+                <i aria-hidden="true"></i><span>Tôi bận, rất tiếc không thể tham dự</span>
+              </label>
+            </fieldset>
+
+            <label class="fld" id="guestsFld">
+              <span class="fld__lb">Số lượng người tham dự</span>
+              <select name="guests">
+                <option>1 người</option><option>2 người</option><option>3 người</option>
+                <option>4 người</option><option>5 người</option><option>Trên 5 người</option>
+              </select>
             </label>
-          </fieldset>
 
-          <label class="fld" id="guestsFld">
-            <span class="fld__lb">Số lượng người tham dự</span>
-            <select name="guests">
-              <option>1 người</option><option>2 người</option><option>3 người</option>
-              <option>4 người</option><option>5 người</option><option>Trên 5 người</option>
-            </select>
-          </label>
+            <label class="fld">
+              <span class="fld__lb">Lời chúc gửi tới cô dâu chú rể</span>
+              <textarea name="wish" rows="3" placeholder="Viết đôi lời chúc mừng…"></textarea>
+            </label>
 
-          <label class="fld">
-            <span class="fld__lb">Lời chúc gửi tới cô dâu chú rể</span>
-            <textarea name="wish" rows="3" placeholder="Viết đôi lời chúc mừng…"></textarea>
-          </label>
-
-          <button class="rsvp__submit" type="submit">Gửi xác nhận</button>
-          <p class="rsvp__msg" id="rsvpMsg" role="status"></p>
-        </form>
+            <button class="rsvp__submit" type="submit">Gửi xác nhận</button>
+            <p class="rsvp__msg" id="rsvpMsg" role="status"></p>
+          </form>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <footer class="foot foot--wine">
-    <img class="foot__mono" src="assets/monogram-t.webp" alt="" width="244" height="296" data-reveal>
-  </footer>
+    <footer class="foot foot--wine">
+      <img class="foot__mono" src="assets/monogram-t.webp" alt="" width="244" height="296" data-reveal>
+    </footer>
+  </div>
 </main>
 
 </div><!-- /.app -->

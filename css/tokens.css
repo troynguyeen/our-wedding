@@ -81,9 +81,9 @@ body{
   -webkit-font-smoothing:antialiased;
   transition:background-color .45s var(--ease);
 }
-body[data-screen="detail"]{ background:var(--cream-100) }
-/* OUR STORY dùng kem của mockup, không phải kem chung — nếu để lệch thì lúc
-   cuộn quá đà (overscroll) sẽ lòi ra một dải khác màu dưới chân màn. */
+/* OUR STORY và WEDDING DETAIL dùng kem của mockup, không phải kem chung — nếu
+   để lệch thì lúc cuộn quá đà (overscroll) sẽ lòi ra một dải khác màu. */
+body[data-screen="detail"],
 body[data-screen="story"]{ background:var(--cream-mock) }
 
 /* Khoá cuộn trong lúc onboarding. Dùng cả position:fixed vì iOS Safari
@@ -204,10 +204,8 @@ p,li,dd,dt,h1,h2,h3{ overflow-wrap:anywhere }
   padding:calc(env(safe-area-inset-top) + .55rem) var(--pad) .55rem;
   background:linear-gradient(var(--cream-100) 68%,rgba(253,246,227,0));
 }
-.screen--detail .nav{
-  background:linear-gradient(var(--cream-100) 68%,rgba(253,246,227,0));
-}
-/* nav dính nổi trên nền màn OUR STORY nên phải nhuộm đúng kem của mockup */
+/* nav dính nổi trên nền hai màn này nên phải nhuộm đúng kem của mockup */
+.screen--detail .nav,
 .screen--story .nav{
   background:linear-gradient(var(--cream-mock) 68%,rgba(255,252,239,0));
 }

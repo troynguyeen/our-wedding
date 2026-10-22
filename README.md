@@ -91,7 +91,33 @@ text thật, `--fs` được hiệu chỉnh cho khớp **bề ngang** từng kh�
 thể mà không để hai cột tên đè nhau. Có file phông gốc thì thả vào
 `assets/fonts/`, khai `@font-face` là khớp tuyệt đối.
 
-## Dựng lại ảnh đôi uyên ương (khối tim màn WEDDING DETAIL)
+## Dựng lại đồ hoạ màn WEDDING DETAIL
+
+```bash
+python3 tools/build-detail.py      # cần numpy + Pillow
+```
+
+Như màn OUR STORY, nguồn duy nhất đúng 100% là chính mockup 8 (tìm ở
+`Wedding/Wedding Invitation Flow/`, `Wedding/Material/` hoặc `Material/`), nên
+script cắt thẳng từ đó:
+
+- `detail-heart` — cả khối tim: trái tim, tên, ngày, chữ cong, đôi uyên ương,
+  dải rách và máy in là một ảnh, nên chữ không thể lệch khỏi trái tim.
+- `detail-pass` + `detail-strip` — vé, kẹp và dải 4 ảnh, nối khít nhau; đặt
+  bằng toạ độ mockup trong `css/detail.css`. Vé mockup in dữ liệu mẫu
+  (05.03.2027, Unique Wedding / Đặng Văn Bi) nên script xoá và in lại
+  07.03.2027 · Claris Palace Hall · 22 Hiệp Bình bằng Be Vietnam Pro.
+- `rsvp-lace.webp` — khung ren hoa quanh RSVP, tách khỏi nền nhung và cắt thành
+  9 ô trên đúng ranh giữa các bông, nên `border-image … round` lặp không mối
+  dù form cao bao nhiêu.
+- `detail-velvet` — vân nhung dệt lại theo phổ và màu nhung mockup, lặp liền mạch.
+
+Chữ lịch trình vẫn là HTML (giữ sàn 13px), nên khối đó cao hơn mockup.
+
+## Ảnh đôi uyên ương tách nền (không còn dùng)
+
+Khối tim nay cắt thẳng từ mockup nên `detail-couple.webp` không còn được trang
+nạp. Giữ lại công cụ để tham khảo:
 
 ```bash
 python3 tools/build-couple.py
@@ -105,10 +131,6 @@ không có `rembg`, nhưng macOS có sẵn Vision: `tools/cutout.swift` gọi
 `VNGenerateForegroundInstanceMaskRequest` để lấy mặt nạ chủ thể. Script Python
 tự biên dịch file Swift đó (cần Xcode Command Line Tools), chạy, rồi nở mặt nạ
 ra ~2% bề ngang để làm viền trắng.
-
-Vị trí đặt trong khối tim (`--fs`, `left`, `bottom` trong `css/detail.css`) dò
-bằng cách quét tỉ lệ và độ lệch, chọn bộ tham số cho sai lệch điểm ảnh nhỏ nhất
-so với mockup — không ướm bằng mắt.
 
 ## Dựng lại tiếng cào giấy
 
@@ -147,9 +169,8 @@ node tools/audit.mjs --screen ob --state scratch --shots
 
 - **RSVP chưa có backend.** Phản hồi lưu trong `localStorage` của máy khách; nối API
   tại chỗ đánh dấu trong `js/rsvp.js`.
-- **Màn WEDDING DETAIL còn cao hơn mockup 26%.** Nhịp dọc đã siết từ 6.22×
-  xuống 4.97× bề ngang (mockup 3.98×): khối tim khớp đúng 0.995×, chân trang
-  lệch 6%, bản đồ lệch 5%. Hai khối không siết thêm được vì đụng ngưỡng dùng
+- **Màn WEDDING DETAIL còn cao hơn mockup.** Khối tim, vé, dải ảnh, khung ren
+  bản đồ và bồ câu nay khớp 1:1 với mockup. Hai khối không siết thêm được vì đụng ngưỡng dùng
   được, không phải vì chưa làm: lịch trình (+28%) vướng sàn chữ 13px trong
   `tokens.css`, còn RSVP (+64%) vướng font 16px của ô nhập (nhỏ hơn là Safari
   iOS tự phóng khi bấm vào) và vùng chạm 44px của nút chọn. Mockup vẽ form ở
