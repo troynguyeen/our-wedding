@@ -1,0 +1,202 @@
+/* ============================================================
+   Thành & Trinh — wedding invitation
+   Coordinate system
+   -----------------
+   Every layer is positioned in the ORIGINAL design pixel space
+   (6047 x 13606 for the cinematic scenes, 2732 x N for H1/H2).
+   `--u` converts one design pixel into CSS pixels, so a layer only
+   ever needs its raw Figma/Photoshop coordinates — no rounding drift.
+   ============================================================ */
+
+:root{
+  /* Desktop: the 4:9 page is shown whole, framed like a phone. */
+  --colw: min(100vw, calc(100svh * 0.444436));
+  --u: calc(var(--colw) / 6047);          /* cinematic scenes */
+
+  --paper:#efece5;
+  --paper-warm:#eae4dc;
+  --ink:#6d2b2b;
+  --ink-deep:#4a1b1b;
+  --ink-soft:#8a4b46;
+  --sage:#b5b394;
+  --sage-dark:#8f8d6f;
+  --night:#0b0d0a;
+
+  --ease-out: cubic-bezier(.16,1,.3,1);
+  --ease-soft: cubic-bezier(.33,1,.68,1);
+  --ease-unfold: cubic-bezier(.2,.86,.26,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+
+html{ background:var(--night); }
+body{
+  margin:0;
+  background:var(--night);
+  color:#fff;
+  font-family:"EB Garamond",Georgia,"Times New Roman",serif;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+
+/* --- phones -------------------------------------------------
+   Portrait phones: the page fills the width edge to edge. A 4:9 frame is a
+   touch narrower than a modern phone (390/844 = 0.462), so the height overflows
+   and is cropped evenly top and bottom — no black bars at the sides, and no
+   dependence on the Safari toolbar, which is what shrank the old layout. */
+@media (max-width: 760px) and (orientation: portrait){
+  :root{ --colw: max(100vw, calc(100vh * 0.444436)); }
+}
+
+/* --- scroll behaviour ------------------------------------- */
+html{ scroll-behavior:smooth; }
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+
+body.is-locked{ overflow:hidden; }
+
+/* While the deck is running the document must not scroll:
+   pages 1-8 are advanced by tapping, not by scrolling. */
+html.deck-on, html.deck-on body{ overflow:hidden; height:100%; }
+
+/* --- the deck: eight pages stacked, one visible ------------ */
+#deck{
+  position:fixed; inset:0; z-index:50;
+  background:var(--night);
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  -webkit-user-select:none; user-select:none;
+  touch-action:manipulation;
+  transition:opacity .7s ease;
+}
+/* a dragged <img> swallows the pointer stream and kills swipes, so the
+   artwork never takes pointer events itself — the page under it does. */
+#deck img{ pointer-events:none; -webkit-user-drag:none; }
+
+html.deck-done #deck{ opacity:0; visibility:hidden; pointer-events:none; }
+/* `.scene.is-live` would otherwise win over the hidden parent — visibility
+   and pointer-events are both inherited and a child can turn them back on. */
+html.deck-done #deck,
+html.deck-done .scene{ pointer-events:none !important; }
+
+.scene{
+  position:absolute; inset:0;
+  display:grid;
+  place-items:center;
+  overflow:clip;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity .85s var(--ease-soft), visibility 0s linear .85s;
+}
+.scene.is-live{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+  z-index:2;
+  transition:opacity .85s var(--ease-soft), visibility 0s linear 0s;
+}
+#deck.cut .scene,
+#deck.cut .anim{ transition:none !important; }
+
+@media (prefers-reduced-motion:reduce){
+  .scene{transition-duration:.01ms}
+  #deck{transition-duration:.01ms}
+}
+.scene__amb{
+  position:absolute; inset:-8%;
+  background-position:center; background-size:cover;
+  filter:blur(44px) brightness(.4) saturate(.8);
+  transform:scale(1.12);
+  pointer-events:none;
+}
+.stage{
+  position:relative;
+  width:var(--colw);
+  height:calc(13606 * var(--u));
+  isolation:isolate;
+}
+/* page 6 has no single backdrop — its three bands arrive one by one */
+.stage--dark{ background:#07080a; }
+.stage__art{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* a positioned layer: --x/--y/--w are raw design pixels */
+.lyr{
+  position:absolute;
+  left:calc(var(--x) * var(--u));
+  top:calc(var(--y) * var(--u));
+  width:calc(var(--w) * var(--u));
+  height:auto;
+  display:block;
+  will-change:transform,opacity;
+}
+
+/* --- entrance vocabulary ----------------------------------
+   Taken frame-by-frame off the motion reference. The designer's
+   signature move is a horizontal unfold from an element's left
+   edge; script lettering wipes left-to-right; the opened envelope
+   unfolds downward from its flap.
+   ---------------------------------------------------------- */
+.anim{ opacity:0; }
+.scene.is-live .anim,
+.sect .anim.is-in{
+  opacity:1;
+  transform:none;
+  transition:
+    transform .62s var(--ease-unfold) var(--d,0ms),
+    opacity   .42s ease               var(--d,0ms),
+    clip-path .62s var(--ease-unfold) var(--d,0ms);
+}
+
+/* unfolds keep full opacity — they grow, they do not fade in */
+.anim[data-in="unfoldX"]{ opacity:1; transform:scaleX(.045); transform-origin:left center; }
+.anim[data-in="unfoldY"]{ opacity:1; transform:scaleY(.05);  transform-origin:center top; }
+.anim[data-in="wipe"]   { opacity:1; clip-path:inset(0 100% 0 0); }
+.anim[data-in="wipeR"]  { opacity:1; clip-path:inset(0 0 0 100%); }
+.anim[data-in="pop"]    { transform:scale(.9); }
+.anim[data-in="rise"]   { transform:translateY(calc(150 * var(--u))); }
+.anim[data-in="fade"]   { transform:none; }
+
+.scene.is-live .anim[data-in="wipe"],  .sect .anim.is-in[data-in="wipe"],
+.scene.is-live .anim[data-in="wipeR"], .sect .anim.is-in[data-in="wipeR"]{
+  clip-path:inset(0 0 0 0);
+}
+
+/* page 8 arrives as one sheet sliding in from the right */
+.scene[data-enter="wipeR"] .stage{ clip-path:inset(0 0 0 100%); }
+.scene[data-enter="wipeR"].is-live .stage{
+  clip-path:inset(0 0 0 0);
+  transition:clip-path .78s var(--ease-unfold);
+}
+/* A page that is fading out must not also re-arrange itself. Reset its
+   layers instantly, but only once the cross-fade has finished. */
+.scene:not(.is-live) .anim,
+.scene:not(.is-live) .tuck,
+.scene:not(.is-live) .stage{
+  transition-duration:.01ms !important;
+  transition-delay:.9s !important;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .anim,.scene.is-live .anim,.sect .anim.is-in{transition-duration:.01ms!important;transform:none!important}
+}
+
+/* --- long-form sections (H1 / H2) ------------------------- */
+.sect{
+  --u: calc(var(--colw) / 2732);   /* H1 / H2 are authored on a 2732-wide canvas */
+  position:relative;
+  width:var(--colw);
+  margin:0 auto;
+  overflow:clip;
+}
+.sect__art{ display:block; width:100%; height:auto; }
+
+/* --- utility ---------------------------------------------- */
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.hit{position:absolute;background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.hit:focus-visible{outline:2px solid #fff;outline-offset:4px;border-radius:6px}

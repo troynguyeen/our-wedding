@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en" class="deck-on">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Thành &amp; Trinh — 28.03.2027</title>
+<meta name="description" content="A love letter from Chí Thành &amp; Ngọc Trinh. Sunday 28 March 2027, 18:00 — Claris Palace, 22 Hiep Binh st, Hiep Binh Ward, Ho Chi Minh City.">
+<meta name="theme-color" content="#0b0d0a">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Thành &amp; Trinh — Save the Date">
+<meta property="og:description" content="Sunday 28 March 2027 · 18:00 · Claris Palace, Ho Chi Minh City">
+<meta property="og:image" content="assets/img/bg8.webp">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='25' x='4' font-size='24' font-family='Georgia,serif' fill='%23b5b394'>T</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400&display=swap">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/scenes.css">
+
+<link rel="preload" as="image" href="assets/img/bg15-800.webp">
+<link rel="preload" as="image" href="assets/img/s1_env.webp">
+<link rel="preload" as="image" href="assets/img/s1_title.webp">
+
+<noscript><style>
+  /* without scripting the tap-through deck cannot work —
+     hand the guest the written invitation instead. */
+  html.deck-on, html.deck-on body{ overflow:auto; height:auto; }
+  #deck{ display:none; }
+</style></noscript>
+</head>
+<body>
+
+<div id="deck">
+
+<!-- ══════════════ 1 · the letter arrives ══════════════ -->
+<section class="scene" data-scene="1" aria-label="A love letter from Thành and Trinh">
+  <div class="scene__amb" style="background-image:url(assets/img/bg15-480.webp)"></div>
+  <div class="stage">
+    <img class="stage__art" srcset="assets/img/bg15-480.webp 480w, assets/img/bg15-800.webp 800w, assets/img/bg15-1200.webp 1200w, assets/img/bg15.webp 1440w" sizes="100vw" src="assets/img/bg15.webp" alt="" fetchpriority="high">
+    <img class="lyr anim" data-in="wipe" style="--x:1031;--y:2986;--w:3969;--d:140ms"
+         srcset="assets/img/s1_title-480.webp 480w, assets/img/s1_title-800.webp 800w, assets/img/s1_title.webp 953w" sizes="calc(3969/6047*100vw)" src="assets/img/s1_title.webp" alt="a love letter from Thành &amp; Trinh">
+    <img class="lyr anim" data-in="unfoldX" style="--x:488;--y:5064;--w:5024;--d:340ms"
+         srcset="assets/img/s1_env-480.webp 480w, assets/img/s1_env-800.webp 800w, assets/img/s1_env.webp 1206w" sizes="calc(5024/6047*100vw)" src="assets/img/s1_env.webp" alt="A cream envelope closed with a monogrammed wax seal">
+  </div>
+</section>
+
+<!-- ══════════════ 2 · scratch to see details ══════════════ -->
+<section class="scene" data-scene="2" aria-label="Scratch the silver panel to reveal the date">
+  <div class="scene__amb" style="background-image:url(assets/img/bg15-480.webp)"></div>
+  <div class="stage">
+    <img class="stage__art" srcset="assets/img/bg15-480.webp 480w, assets/img/bg15-800.webp 800w, assets/img/bg15-1200.webp 1200w, assets/img/bg15.webp 1440w" sizes="100vw" src="assets/img/bg15.webp" alt="">
+    <img class="lyr anim" data-in="wipe" style="--x:1550;--y:1828;--w:2913;--d:380ms"
+         srcset="assets/img/s2_hint-480.webp 480w, assets/img/s2_hint.webp 699w" sizes="calc(2913/6047*100vw)" src="assets/img/s2_hint.webp" alt="scratch to see details">
+    <!-- the real card, waiting underneath the foil: same place and size as
+         scene 3, so the foil covers the whole face of it -->
+    <img class="lyr anim" data-in="unfoldX" style="--x:1145;--y:2382;--w:3751;--d:160ms"
+         srcset="assets/img/s3_card-480.webp 480w, assets/img/s3_card.webp 900w" sizes="calc(3751/6047*100vw)" src="assets/img/s3_card.webp" alt="">
+    <div class="scratch anim" data-in="unfoldX" id="scratch"
+         style="--x:1145;--y:2382;--w:3751;--h:3678;--d:160ms">
+      <img class="scratch__foil" srcset="assets/img/s2_card-480.webp 480w, assets/img/s2_card.webp 900w" sizes="calc(3751/6047*100vw)" src="assets/img/s2_card.webp" alt="A silver scratch panel">
+      <canvas class="scratch__canvas" role="img"
+              aria-label="Silver scratch panel — drag across it to reveal the wedding date"></canvas>
+      <span class="scratch__finger" aria-hidden="true"></span>
+    </div>
+    <!-- above the scratch layer so the foot of the card stays tucked in -->
+    <img class="lyr anim" data-in="unfoldX" style="--x:510;--y:5938;--w:4982;--d:0ms;z-index:4"
+         srcset="assets/img/s23_env-480.webp 480w, assets/img/s23_env-800.webp 800w, assets/img/s23_env.webp 1195w" sizes="calc(4982/6047*100vw)" src="assets/img/s23_env.webp" alt="">
+  </div>
+</section>
+
+<!-- ══════════════ 3 · save the date ══════════════ -->
+<section class="scene" data-scene="3" aria-label="Save the date: 28 March 2027">
+  <div class="scene__amb" style="background-image:url(assets/img/bg15-480.webp)"></div>
+  <div class="stage">
+    <img data-srcset="assets/img/bg15-480.webp 480w, assets/img/bg15-800.webp 800w, assets/img/bg15-1200.webp 1200w, assets/img/bg15.webp 1440w" sizes="100vw" class="stage__art" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/bg15.webp" alt="">
+    <img data-srcset="assets/img/s3_card-480.webp 480w, assets/img/s3_card.webp 900w" sizes="calc(3751/6047*100vw)" class="lyr anim" data-in="fade" style="--x:1145;--y:2382;--w:3751;--d:0ms"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s3_card.webp" alt="Save the date — Chí Thành &amp; Ngọc Trinh — 28.03.27">
+    <img data-srcset="assets/img/s23_env-480.webp 480w, assets/img/s23_env-800.webp 800w, assets/img/s23_env.webp 1195w" sizes="calc(4982/6047*100vw)" class="lyr" style="--x:510;--y:5938;--w:4982"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s23_env.webp" alt="">
+  </div>
+</section>
+
+<!-- ══════════════ 4 · sealed again ══════════════ -->
+<section class="scene" data-scene="4" aria-label="The letter is sealed again">
+  <div class="scene__amb" style="background-image:url(assets/img/bg15-480.webp)"></div>
+  <div class="stage">
+    <img data-srcset="assets/img/bg15-480.webp 480w, assets/img/bg15-800.webp 800w, assets/img/bg15-1200.webp 1200w, assets/img/bg15.webp 1440w" sizes="100vw" class="stage__art" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/bg15.webp" alt="">
+    <img data-srcset="assets/img/s1_title-480.webp 480w, assets/img/s1_title-800.webp 800w, assets/img/s1_title.webp 953w" sizes="calc(3969/6047*100vw)" class="lyr anim" data-in="wipe" style="--x:1031;--y:2986;--w:3969;--d:560ms"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s1_title.webp" alt="a love letter from Thành &amp; Trinh">
+    <img data-srcset="assets/img/s3_card-480.webp 480w, assets/img/s3_card.webp 900w" sizes="calc(3751/6047*100vw)" class="lyr tuck" style="--x:1145;--y:5160;--w:3751;--travel:2778" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s3_card.webp" alt="">
+    <img data-srcset="assets/img/s1_env-480.webp 480w, assets/img/s1_env-800.webp 800w, assets/img/s1_env.webp 1206w" sizes="calc(5024/6047*100vw)" class="lyr anim" data-in="fade" style="--x:488;--y:5064;--w:5024;--d:0ms"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s1_env.webp" alt="">
+  </div>
+</section>
+
+<!-- ══════════════ 5 · the envelope opens ══════════════ -->
+<section class="scene" data-scene="5" aria-label="The envelope opens">
+  <div class="scene__amb" style="background-image:url(assets/img/bg15-480.webp)"></div>
+  <div class="stage">
+    <img data-srcset="assets/img/bg15-480.webp 480w, assets/img/bg15-800.webp 800w, assets/img/bg15-1200.webp 1200w, assets/img/bg15.webp 1440w" sizes="100vw" class="stage__art" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/bg15.webp" alt="">
+    <!-- the reference opens this envelope downward from its flap -->
+    <img data-srcset="assets/img/s5_group-480.webp 480w, assets/img/s5_group-800.webp 800w, assets/img/s5_group.webp 1342w" sizes="calc(5592/6047*100vw)" class="lyr anim" data-in="unfoldY" style="--x:0;--y:2296;--w:5592;--d:260ms"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s5_group.webp"
+         alt="The open envelope holding the save-the-date card, a photograph and red orchids">
+    <img data-srcset="assets/img/s5_bfl.webp 213w" sizes="calc(888/6047*100vw)" class="lyr anim flutter" data-in="pop" style="--x:840;--y:2112;--w:888;--d:0ms"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s5_bfl.webp" alt="">
+    <img data-srcset="assets/img/s5_bfr.webp 269w" sizes="calc(1120/6047*100vw)" class="lyr anim flutter flutter--b" data-in="pop" style="--x:4336;--y:2200;--w:1120;--d:120ms"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s5_bfr.webp" alt="">
+  </div>
+</section>
+
+<!-- ══════════════ 6 · a day to remember ══════════════ -->
+<section class="scene" data-scene="6" aria-label="A day to remember — our wedding film">
+  <div class="scene__amb" style="background-image:url(assets/img/bg6-480.webp)"></div>
+  <div class="stage stage--dark">
+    <!-- the reference wipes the three bands in from the left, one after
+         the other, over darkness — so they are separate layers here -->
+    <img data-srcset="assets/img/bg6_top-480.webp 480w, assets/img/bg6_top-800.webp 800w, assets/img/bg6_top-1200.webp 1200w, assets/img/bg6_top.webp 1440w" sizes="calc(6047/6047*100vw)" class="lyr anim" data-in="wipe" style="--x:0;--y:0;--w:6047;--d:0ms"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/bg6_top.webp" alt="Thành lifting Trinh in the garden">
+    <img data-srcset="assets/img/bg6_bot-480.webp 480w, assets/img/bg6_bot-800.webp 800w, assets/img/bg6_bot-1200.webp 1200w, assets/img/bg6_bot.webp 1440w" sizes="calc(6047/6047*100vw)" class="lyr anim" data-in="wipe" style="--x:0;--y:8613;--w:6047;--d:150ms"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/bg6_bot.webp" alt="Thành and Trinh on a bench">
+    <div class="film anim" data-in="wipe" style="--d:300ms">
+      <!-- the film carries its own sound, so it is NOT muted -->
+      <video id="film" data-src="assets/video/page6.mp4" data-mobile="assets/video/page6-m.mp4" poster="assets/video/page6-poster.jpg"
+             playsinline webkit-playsinline preload="none"></video>
+      <div class="film__title"><b>A Day to Remember</b><i>28 march 2027</i></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 7 · our story ══════════════ -->
+<section class="scene" data-scene="7" aria-label="Our story">
+  <div class="scene__amb" style="background-image:url(assets/img/bg7-480.webp)"></div>
+  <div class="stage">
+    <img data-srcset="assets/img/bg7-480.webp 480w, assets/img/bg7-800.webp 800w, assets/img/bg7-1200.webp 1200w, assets/img/bg7.webp 1440w" sizes="100vw" class="stage__art" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/bg7.webp" alt="">
+    <img data-srcset="assets/img/s7_hero-480.webp 480w, assets/img/s7_hero-800.webp 800w, assets/img/s7_hero.webp 1319w" sizes="calc(5496/6047*100vw)" class="lyr anim" data-in="unfoldX" style="--x:416;--y:216;--w:5496;--d:60ms"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s7_hero.webp" alt="Thành and Trinh hand in hand">
+    <button class="vinyl anim" data-in="pop" id="vinyl" data-music
+            style="--x:4621;--y:245;--w:1268;--d:440ms"
+            aria-pressed="false" aria-label="Play The Ordinary">
+      <img data-srcset="assets/img/s7_vinyl.webp 306w" sizes="calc(1268/6047*100vw)" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s7_vinyl.webp" alt="" aria-hidden="true">
+    </button>
+    <img data-srcset="assets/img/s7_textl.webp 393w" sizes="calc(1636/6047*100vw)" class="lyr anim" data-in="wipe" style="--x:386;--y:7686;--w:1636;--d:620ms"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s7_textl.webp"
+         alt="Love is a journey best shared with the ones we cherish most. Together with our families, we invite you to join us for an evening of warmth, laughter, and lifelong promises as we become husband and wife.">
+    <img data-srcset="assets/img/s7_textr.webp 377w" sizes="calc(1569/6047*100vw)" class="lyr anim" data-in="wipe" style="--x:3959;--y:7667;--w:1569;--d:760ms"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s7_textr.webp"
+         alt="Our Story: From a Glance to Forever. What started as a simple coincidence quickly turned into our favorite story. From long conversations late into the night to discovering shared dreams and quiet moments of joy, every step together brought us closer.">
+    <img data-srcset="assets/img/s7_bottom-480.webp 480w, assets/img/s7_bottom-800.webp 800w, assets/img/s7_bottom-1200.webp 1200w, assets/img/s7_bottom.webp 1444w" sizes="calc(6016/6047*100vw)" class="lyr anim" data-in="rise" style="--x:0;--y:8752;--w:6016;--d:320ms"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s7_bottom.webp" alt="">
+    <button class="seal-hit" style="--x:2286;--y:6474;--w:1439;--h:1415"
+            data-toggle="story" aria-expanded="false" aria-label="Open: Our Story"></button>
+    <div class="story" id="story" role="dialog" aria-label="Our Story">
+      <button class="story__x" type="button" data-close="story" aria-label="Close">×</button>
+      <h3>From a glance to forever</h3>
+      <p>What started as a simple coincidence quickly turned into our favourite story — long
+         conversations late into the night, shared dreams, and a hundred quiet moments of joy.</p>
+      <p>Together with our families, we invite you to an evening of warmth, laughter and
+         lifelong promises, as we become husband and wife.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 8 · when two opposites attract ══════════════ -->
+<section class="scene" data-scene="8" data-enter="wipeR"
+         aria-label="Our story: when two opposites attract">
+  <div class="scene__amb" style="background-image:url(assets/img/bg8-480.webp)"></div>
+  <div class="stage">
+    <img data-srcset="assets/img/bg8-480.webp 480w, assets/img/bg8-800.webp 800w, assets/img/bg8-1200.webp 1200w, assets/img/bg8.webp 1440w" sizes="100vw" class="stage__art" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/bg8.webp" alt="">
+    <img data-srcset="assets/img/s8_digits.webp 244w" sizes="calc(1017/6047*100vw)" class="lyr anim" data-in="pop" style="--x:2515;--y:1329;--w:1017;--d:420ms"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s8_digits.webp" alt="28 · 03 · 27">
+    <img data-srcset="assets/img/s8_head-480.webp 480w, assets/img/s8_head-800.webp 800w, assets/img/s8_head.webp 941w" sizes="calc(3921/6047*100vw)" class="lyr anim" data-in="wipe" style="--x:1080;--y:4190;--w:3921;--d:620ms"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s8_head.webp" alt="Our Story: When Two Opposites Attract">
+    <img data-srcset="assets/img/s8_bios-480.webp 480w, assets/img/s8_bios-800.webp 800w, assets/img/s8_bios.webp 1144w" sizes="calc(4766/6047*100vw)" class="lyr anim" data-in="wipe" style="--x:655;--y:4690;--w:4766;--d:760ms"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s8_bios.webp"
+         alt="The Groom: a DevOps guy living in his own calm universe. The Bride: a marketing girlie and content creator who tells a thousand and one stories for a living.">
+    <img data-srcset="assets/img/s8_tail-480.webp 480w, assets/img/s8_tail-800.webp 800w, assets/img/s8_tail-1200.webp 1200w, assets/img/s8_tail.webp 1451w" sizes="calc(6047/6047*100vw)" class="lyr anim" data-in="rise" style="--x:0;--y:5736;--w:6047;--d:300ms"
+         src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/s8_tail.webp" alt="And now, we're getting married!">
+  </div>
+</section>
+
+  <div class="flash" id="flash" aria-hidden="true"></div>
+  <div class="progress" aria-hidden="true"><b id="progress-bar"></b></div>
+  <div class="cue" aria-hidden="true"><span id="cue-text">tap to open</span><i></i></div>
+</div><!-- /#deck -->
+
+<!-- ══════════════ H1 · the invitation ══════════════ -->
+<section class="sect" id="h1" aria-label="The invitation">
+  <img class="sect__art" srcset="assets/img/h1bg-480.webp 480w, assets/img/h1bg-800.webp 800w, assets/img/h1bg-1200.webp 1200w, assets/img/h1bg.webp 1440w" sizes="100vw" src="assets/img/h1bg.webp" alt="" width="2732" height="10218" loading="lazy">
+  <img class="lyr anim" data-in="rise" style="--x:1036;--y:828;--w:1696"
+       srcset="assets/img/h1_polaroids-480.webp 480w, assets/img/h1_polaroids.webp 882w" sizes="calc(1696/2732*100vw)" src="assets/img/h1_polaroids.webp" alt="Two polaroid photographs of the couple" loading="lazy">
+  <img class="lyr anim" data-in="rise" style="--x:0;--y:2940;--w:2732"
+       srcset="assets/img/h1_count-480.webp 480w, assets/img/h1_count-800.webp 800w, assets/img/h1_count-1200.webp 1200w, assets/img/h1_count.webp 1420w" sizes="calc(2732/2732*100vw)" src="assets/img/h1_count.webp" alt="We're getting married — meet us on Sunday, 28 March 2027" loading="lazy">
+  <div class="cd anim" data-in="fade" id="countdown"
+       style="--x:726;--y:4206;--w:1320;--h:170" aria-label="Countdown to the wedding">
+    <b style="--cx:187"  data-cd="d">—</b><i style="--cx:389">:</i>
+    <b style="--cx:538"  data-cd="h">—</b><i style="--cx:702">:</i>
+    <b style="--cx:841"  data-cd="m">—</b><i style="--cx:1017">:</i>
+    <b style="--cx:1175" data-cd="s">—</b>
+  </div>
+  <img class="lyr anim" data-in="rise" style="--x:0;--y:7328;--w:2732"
+       srcset="assets/img/h1_plate-480.webp 480w, assets/img/h1_plate-800.webp 800w, assets/img/h1_plate-1200.webp 1200w, assets/img/h1_plate.webp 1421w" sizes="calc(2732/2732*100vw)" src="assets/img/h1_plate.webp" alt="Our Wedding Details — click to see more" loading="lazy">
+  <button class="hit plate-hit" style="--x:790;--y:7420;--w:1060;--h:1550"
+          data-open-details aria-label="Open the wedding details"></button>
+</section>
+
+<!-- the menu that waits at the foot of H1 -->
+<div class="detailbar" id="detailbar">
+  <button type="button" data-open-details>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <path d="M12 4v14M6.5 12.5 12 18l5.5-5.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>Tap to see details</span>
+  </button>
+</div>
+
+<!-- ══════════════ H2 · details, map, RSVP ══════════════ -->
+<section class="sect" id="h2" aria-label="Wedding details, directions and RSVP">
+  <img class="sect__art" srcset="assets/img/h2bg-480.webp 480w, assets/img/h2bg-800.webp 800w, assets/img/h2bg-1200.webp 1200w, assets/img/h2bg.webp 1440w" sizes="100vw" src="assets/img/h2bg.webp" alt="" width="2732" height="12666" loading="lazy">
+  <img class="lyr anim" data-in="rise" style="--x:396;--y:428;--w:1988"
+       srcset="assets/img/h2_top-480.webp 480w, assets/img/h2_top-800.webp 800w, assets/img/h2_top.webp 1034w" sizes="calc(1988/2732*100vw)" src="assets/img/h2_top.webp" loading="lazy"
+       alt="Timeline — 17:30 Welcome &amp; Gathering at Claris Palace · 18:00 Ceremony Begins · 18:30 Dinner Begins · 19:00 Icebreakers &amp; Fun · 20:30 Bouquet Toss &amp; Wrap-Up">
+  <a class="maplink anim" data-in="rise" style="--x:360;--y:7332;--w:1988;--h:1372"
+     id="maplink" href="#" target="_blank" rel="noopener" aria-label="Open Claris Palace in Google Maps">
+    <img srcset="assets/img/h2_map-480.webp 480w, assets/img/h2_map-800.webp 800w, assets/img/h2_map.webp 1034w" sizes="100vw" src="assets/img/h2_map.webp" alt="Map to Claris Palace, 22 Hiep Binh st, Hiep Binh Ward, HCMC" loading="lazy">
+  </a>
+
+  <img class="lyr anim" data-in="rise" style="--x:612;--y:8748;--w:1512"
+       srcset="assets/img/h2_rsvp-480.webp 480w, assets/img/h2_rsvp.webp 786w" sizes="calc(1512/2732*100vw)" src="assets/img/h2_rsvp.webp" alt="RSVP card" loading="lazy">
+  <form class="rsvp" id="rsvp-form" style="--x:612;--y:8748;--w:1512;--h:2284" novalidate>
+    <label class="sr" for="rsvp-name">Your name</label>
+    <input class="fld" id="rsvp-name" name="name" type="text" autocomplete="name" placeholder="enter your name"
+           style="--fx:117;--fy:525;--fw:1278;--fh:201">
+
+    <input class="radio" type="radio" name="attending" id="a1" value="yes"    style="--fx:155;--fy:887;--fs:62">
+    <span class="dot" style="--fx:155;--fy:887;--fs:62"></span>
+    <label class="sr" for="a1">Wouldn't miss it for the world</label>
+
+    <input class="radio" type="radio" name="attending" id="a2" value="no"     style="--fx:155;--fy:1007;--fs:62">
+    <span class="dot" style="--fx:155;--fy:1007;--fs:62"></span>
+    <label class="sr" for="a2">Regretfully declines, wishing you a lifetime of love and happiness</label>
+
+    <input class="radio" type="radio" name="attending" id="a3" value="other"  style="--fx:155;--fy:1203;--fs:62">
+    <span class="dot" style="--fx:155;--fy:1203;--fs:62"></span>
+    <label class="sr" for="a3">Other — leave your wishes here</label>
+
+    <label class="sr" for="rsvp-wishes">Share your wishes</label>
+    <textarea class="fld" id="rsvp-wishes" name="wishes" rows="2" placeholder="Share your wishes…"
+              style="--fx:117;--fy:1268;--fw:1278;--fh:273"></textarea>
+
+    <label class="sr" for="rsvp-guests">Number of guests attending</label>
+    <select class="pick" id="rsvp-guests" name="guests" style="--fx:106;--fy:1671;--fw:438;--fh:125">
+      <option>1 guest</option><option selected>2 guests</option><option>3 guests</option>
+      <option>4 guests</option><option>5 guests</option><option>6+ guests</option>
+    </select>
+
+    <button class="send" type="submit" id="rsvp-send" style="--fx:257;--fy:2132;--fw:1000;--fh:220">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+        <path d="M3 11.5 21 3l-8.5 18-2.2-7.3L3 11.5Z" stroke-linejoin="round"/>
+      </svg>
+      <span>Send my RSVP</span>
+    </button>
+    <p class="state" id="rsvp-state" style="--fx:107;--fy:2380;--fw:1300" role="status"></p>
+  </form>
+
+  <button class="letter-hit" id="letter" style="--x:676;--y:11380;--w:1368;--h:1076"
+          aria-label="One last thing — open the QR code to celebrate with us"></button>
+  <img class="lyr anim" data-in="rise" style="--x:676;--y:11380;--w:1368"
+       srcset="assets/img/h2_letter-480.webp 480w, assets/img/h2_letter.webp 711w" sizes="calc(1368/2732*100vw)" src="assets/img/h2_letter.webp" loading="lazy"
+       alt="One last thing — click here to celebrate with us. For our loved ones celebrating from afar who are unable to attend.">
+</section>
+
+<!-- the music follows the guest past the deck, so the control has to as well -->
+<button class="mini-music" id="mini-music" data-music type="button"
+        aria-pressed="false" aria-label="Play The Ordinary">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="10.2" fill="none" stroke="currentColor" stroke-width="1.3"/>
+    <circle cx="12" cy="12" r="5.2"  fill="none" stroke="currentColor" stroke-width="1" opacity=".6"/>
+    <circle cx="12" cy="12" r="1.7"  fill="currentColor"/>
+  </svg>
+</button>
+
+<div class="modal" id="qr" hidden role="dialog" aria-modal="true" aria-labelledby="qr-h" tabindex="-1">
+  <div class="modal__card">
+    <h4 id="qr-h">Celebrate with us from afar</h4>
+    <img srcset="assets/img/qr-480.webp 480w, assets/img/qr.webp 554w" sizes="100vw" src="assets/img/qr.webp" alt="QR code to join the celebration online" width="1008" height="1005">
+    <p>For our loved ones who cannot be with us on the day — scan this and you will still be in the room.</p>
+    <button class="modal__close" id="qr-close" type="button">Close</button>
+  </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
